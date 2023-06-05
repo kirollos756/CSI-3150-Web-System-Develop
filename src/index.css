@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0% 20%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+h4 {
+  font-size: 1rem;
+  color: rgb(56, 56, 56);
+}
+h3 {
+  font-size: 1.5rem;
+  color: rgb(56, 56, 56);
+  line-height: 2.5rem;
+  margin: 2rem 0rem;
+}
+a {
+  color: rgb(56, 56, 56);
+}
+
+
+section {
+  margin: 2rem 0 1rem 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+input {
+  text-align: center;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.5rem 1rem;
+ background-image: linear-gradient(35deg, #494949, #313131);
+  color: #f3f3f3;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #6c13d1;
+  cursor: pointer;
+}
+
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.nutrients ul {
+  display: flex;
+  width: 35rem;
+  justify-content: space-evenly;
+}
+
+.meals {
+  display: flex;
+}
+
+
+
+article {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  margin: 0 1rem;
+  max-width: 300px;
+  box-shadow: 0 4px 8px 2px rgba(77, 77, 77, 0.15);
+}
+
+ul {
+  list-style: none;
+}
+
+.instructions {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  .meals {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nutrients ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+} 
