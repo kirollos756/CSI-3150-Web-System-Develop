@@ -31,6 +31,18 @@ h3 {
 a {
   color: rgb(56, 56, 56);
 }
+.search-button{
+  background: #4da1ab;
+  border: 5px solid white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: white;
+  font-size: larger;
+  margin: 0 0 0 10px;
+}
+.search-button:hover {
+  background-color:#fa709a ;
+}
 
 
 section {
@@ -113,4 +125,5 @@ ul {
     align-items: center;
     width: 100%;
   }
+  
 } 

@@ -41,7 +41,7 @@ function handleChange(e) {
           placeholder="Calories (e.g. 2000)"
           onChange={handleChange}
         />
-        <button onClick={getMealData}>Get Daily Meal Plan</button>
+        <button className="search-button" onClick={getMealData}>Get Daily Meal Plan</button>
       </section>
       {mealData && <MealList mealData={mealData} />}
     
