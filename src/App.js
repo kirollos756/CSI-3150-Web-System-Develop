@@ -1,4 +1,5 @@
 import Pages from "./pages/Pages";
+import Rating from "./pages/Rating";
 import Category from "./components/Category";
 import { BrowserRouter } from "react-router-dom";
 import Search from "./components/Search";
@@ -54,6 +55,8 @@ function handleChange(e) {
         <Search />
         <Category />
         <Pages />
+        <Rating />
+
       </BrowserRouter>
       
     </div>
