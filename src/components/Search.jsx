@@ -13,7 +13,7 @@ function Search() {
 
   return (
     <FormStyle onSubmit={submitHandler}>
-      <div>
+      <div className="header">
         <FaSearch></FaSearch>
         <input
           onChange={(e) => setInput(e.target.value)}
@@ -28,16 +28,20 @@ function Search() {
 const FormStyle = styled.form`
   margin: 0rem 20rem;
 
-  div {
-    position: relative;
-    width: 100%;
-  }
+  position: relative;
+  display: block;
+  color: white;
+  text-align: left;
+  padding: 14px 16px;
+  text-decoration: none;
+
   input {
     border: none;
     background-image: linear-gradient(35deg, #494949, #313131);
     font-size: 1.5em;
     color: white;
-    padding: 1rem 3rem;
+    padding: 10px;
+    margin-right: 1rem;
     border: none;
     border-radius: 1rem;
     outline: none;

@@ -25,7 +25,9 @@ function Recipe() {
  
 
   return (
+    
     <DetailWrapper>
+ 
       <div>
         <h2>{details.title}</h2>
         <img src={details.image} alt="" />
