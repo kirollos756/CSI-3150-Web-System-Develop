@@ -48,7 +48,7 @@ function App() {
         <Navbar />
         <Nav>
           <GiKnifeFork />
-          <Logo to={"/"}>deliciousss</Logo>
+          <Logo to={"/"}>SAVORY_RECIPES</Logo>
         </Nav>
 
         <Search />
