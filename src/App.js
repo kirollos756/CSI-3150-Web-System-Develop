@@ -9,6 +9,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import MealList from "./pages/MealList";
 import Navbar from "./components/Navbar";
+import RatingStars from "./components/RatingStars";
 
 function App() {
   const [mealData, setMealData] = useState(null);
@@ -50,10 +51,11 @@ function App() {
           <GiKnifeFork />
           <Logo to={"/"}>SAVORY_RECIPES</Logo>
         </Nav>
-
         <Search />
         <Category />
+
         <Pages />
+        <RatingStars />
       </BrowserRouter>
     </div>
   );
