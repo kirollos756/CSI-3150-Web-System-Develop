@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import MealList from "./pages/MealList";
 import Navbar from "./components/Navbar";
 import RatingStars from "./components/RatingStars";
+import Login from "./components/Login";
+
 
 function App() {
   const [mealData, setMealData] = useState(null);
@@ -46,7 +48,9 @@ function App() {
       {mealData && <MealList mealData={mealData} />}
 
       <BrowserRouter>
+        <Login/>
         <Navbar />
+        
         <Nav>
           <GiKnifeFork />
           <Logo to={"/"}>SAVORY_RECIPES</Logo>
@@ -56,6 +60,7 @@ function App() {
 
         <Pages />
         <RatingStars />
+        
       </BrowserRouter>
     </div>
   );

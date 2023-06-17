@@ -1,5 +1,5 @@
 import Veggie from "../components/Veggie";
-import Popular from "../components/Popular";
+import Popular from "../components/Random";
 import {motion} from "framer-motion";
 
 
