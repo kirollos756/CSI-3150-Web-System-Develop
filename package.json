@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
     "@testing-library/jest-dom": "^5.16.5",
@@ -19,7 +22,8 @@
     "react-rating": "^2.0.5",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
-    "styled-components": "^5.3.10",
+    "react-speech-recognition": "^3.10.0",
+    "styled-components": "^5.3.11",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,6 +1,7 @@
 import Veggie from "../components/Veggie";
-import Popular from "../components/Random";
+import Popular from "../components/Popular";
 import {motion} from "framer-motion";
+import { GlobalStyles } from "../components/Global-Style";
 
 
 import React from 'react'
@@ -13,7 +14,7 @@ function Home() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      
+      <GlobalStyles/>
       <Veggie/>
       <Popular/>
     </motion.div>

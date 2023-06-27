@@ -10,8 +10,9 @@ import { useState, useEffect } from "react";
 import MealList from "./pages/MealList";
 import Navbar from "./components/Navbar";
 import RatingStars from "./components/RatingStars";
-import Login from "./components/Login";
-
+import { GlobalStyles } from "./components/Global-Style";
+import Footer from "./Footer";
+import Register from "./Register";
 
 function App() {
   const [mealData, setMealData] = useState(null);
@@ -48,19 +49,21 @@ function App() {
       {mealData && <MealList mealData={mealData} />}
 
       <BrowserRouter>
-        <Login/>
+        <Register />
         <Navbar />
-        
+
         <Nav>
           <GiKnifeFork />
           <Logo to={"/"}>SAVORY_RECIPES</Logo>
         </Nav>
         <Search />
+
         <Category />
 
         <Pages />
         <RatingStars />
-        
+        <GlobalStyles />
+        <Footer />
       </BrowserRouter>
     </div>
   );

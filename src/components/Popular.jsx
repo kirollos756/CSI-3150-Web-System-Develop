@@ -4,41 +4,41 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import { Link } from "react-router-dom";
 
-function Veggie() {
-  const [veggie, setVeggie] = useState([]);
+function Popular() {
+  const [Popular, setPopular] = useState([]);
   useEffect(() => {
-    getVeggie();
+    getPopular();
   }, []);
-  const getVeggie = async () => {
-    const check = localStorage.getItem("veggie");
+  const getPopular = async () => {
+    const check = localStorage.getItem("popular");
 
     if (check) {
-      setVeggie(JSON.parse(check));
+      setPopular(JSON.parse(check));
     } else {
       const api = await fetch(
-        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=9&tags=vegetarian`
+        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=9`
       );
       const data = await api.json();
-      localStorage.setItem("veggie", JSON.stringify(data.recipes));
-      setVeggie(data.recipes);
+      localStorage.setItem("popular", JSON.stringify(data.recipes));
+      setPopular(data.recipes);
       console.log(data.recipes);
     }
   };
   return (
     <div>
       <Wrapper>
-        <h3>Our Vegetarian Picks</h3>
+        <h3>Popular Picks</h3>
 
         <Splide
           options={{
-            perPage: 3,
+            perPage: 4,
             arrows: false,
             pagination: false,
             drag: "free",
             gap: "5rem",
           }}
         >
-          {veggie.map((recipe) => {
+          {Popular.map((recipe) => {
             return (
               <SplideSlide key={recipe.id}>
                 <Card>
@@ -56,6 +56,7 @@ function Veggie() {
     </div>
   );
 }
+
 const Wrapper = styled.div`
   margin: 4rem 0rem;
 `;
@@ -95,7 +96,7 @@ const Gradient = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  <background: linear-gradien(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+  background: linear-gradien(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 `;
 
-export default Veggie;
+export default Popular;
