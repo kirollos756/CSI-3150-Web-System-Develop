@@ -14,6 +14,9 @@ import { GlobalStyles } from "./components/Global-Style";
 import Footer from "./Footer";
 import Register from "./Register";
 
+import OpenAIComp from "./components/OpenAI";
+
+
 function App() {
   const [mealData, setMealData] = useState(null);
   const [calories, setCalories] = useState(2000);
@@ -33,6 +36,7 @@ function App() {
   function handleChange(e) {
     setCalories(e.target.value);
   }
+  
 
   return (
     <div className="App">
@@ -57,7 +61,7 @@ function App() {
           <Logo to={"/"}>SAVORY_RECIPES</Logo>
         </Nav>
         <Search />
-
+        <OpenAIComp />
         <Category />
 
         <Pages />
