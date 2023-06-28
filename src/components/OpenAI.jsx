@@ -24,6 +24,7 @@ Format the response in JSON with the meal name and cooking instructions. Your re
   The ingredients are: 
 `;
 
+        //Amelio Mansour's API key and org ID
         const apiKey = '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';
         const orgId = 'org-C4QTzJR2tr7fmUxay8VNzzcV';
         try {
@@ -46,11 +47,11 @@ Format the response in JSON with the meal name and cooking instructions. Your re
                 }
             );
 
-            const messageContent = response.data.choices[0].message.content; // Extract the message content
+            //This is the response
+            const messageContent = response.data.choices[0].message.content; 
             
 
-            const recipesData = parseInstructions(messageContent); // Pass the message content to parseInstructions
-
+            const recipesData = parseInstructions(messageContent); 
             
 
             setRecipes(recipesData);
