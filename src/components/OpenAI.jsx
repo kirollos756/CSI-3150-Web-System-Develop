@@ -25,8 +25,9 @@ Format the response in JSON with the meal name and cooking instructions. Your re
 `;
 
         //Amelio Mansour's API key and org ID
-        const apiKey = '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';
-        const orgId = 'org-C4QTzJR2tr7fmUxay8VNzzcV';
+        const apiKey = process.env.REACT_APP_OPEN_API_KEY;
+        const orgId = process.env.REACT_APP_OPEN_API_ORGID;
+        
         try {
             const response = await axios.post(
                 'https://api.openai.com/v1/chat/completions',
