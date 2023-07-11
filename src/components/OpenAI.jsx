@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { State } from '@splidejs/splide';
+
+
 
 const OpenAIComponent = () => {
     const [ingredients, setIngredients] = useState('');
     const [recipes, setRecipes] = useState([]);
-
+    
     const handleInputChange = (e) => {
         setIngredients(e.target.value);
     };
@@ -87,7 +90,17 @@ Format the response in JSON with the meal name and cooking instructions. Your re
     
         return recipesData;
     };
-    
+
+    //Saving a recipe
+    const saveRecipe = (recipe) => {
+        const data = JSON.stringify(recipe);
+        const blob = new Blob([data], { type: "text/plain"});
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "recipe-" + Date.now() + ".txt";
+        document.body.appendChild(link);
+        link.click();
+    };
 
     return (
         <div>
@@ -114,8 +127,16 @@ Format the response in JSON with the meal name and cooking instructions. Your re
                     {recipe.instructions.map((instruction, i) => (
                         <p key={i}>{instruction}</p>
                     ))}
+                    
+                    
                 </div>
+                
             ))}
+            <div>
+                         {/* Button for saving to text */}
+                <button onClick={() => {saveRecipe(recipes)}}> SAVE RECIPE </button>
+
+            </div>
         </div>
     );
 };
