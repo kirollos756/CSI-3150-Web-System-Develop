@@ -15,16 +15,32 @@ const OpenAIComponent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const prompt = `Please provide a recipe using the following ingredients only that will be listed below. 
-Format the response in JSON with the meal name and cooking instructions. Your response should start with the text "Recipe". Your response should be literally exactly as follows: 
-{
-  "Recipe": "meal name",
-  "cooking_instructions": [
-    "instruction line 1...",
-    "instruction line 2...",
-    "However many lines are needed to finish the recipe..."
-  ]
-  The ingredients are: 
+        const prompt = `Please provide a recipe using the following ingredients only: ${ingredients} 
+         Format the response starting with the Recipe Name. Your response should be literally exactly the same format below:
+         just change the content to whatever the recipe is.  
+        
+         Recipe: Chicken and Rice
+
+         Ingredients:
+         - 2 chicken breasts
+         - 1 cup rice
+         - Salt, to taste
+         - Pepper, to taste
+         
+         Instructions:
+         1. Preheat the oven to 375°F (190°C).
+         2. Season the chicken breasts with salt and pepper on both sides.
+         3. Heat a large oven-safe skillet over medium-high heat.
+         4. Add the chicken breasts to the skillet and cook for about 3-4 minutes on each side until browned.
+         5. Remove the chicken from the skillet and set aside.
+         6. In the same skillet, add the rice and toast it for about 2 minutes, stirring constantly.
+         7. Add 2 cups of water to the skillet and bring it to a boil.
+         8. Place the chicken breasts on top of the rice in the skillet.
+         9. Cover the skillet with a lid or aluminum foil and transfer it to the preheated oven.
+         10. Bake for 20-25 minutes or until the chicken is cooked through and the rice is tender.
+         11. Remove from the oven and let it rest for a few minutes before serving.
+         12. Serve the chicken and rice together, and adjust the seasoning with salt and pepper if needed.
+  
 `;
 
         //Amelio Mansour's API key and org ID
@@ -41,7 +57,7 @@ Format the response in JSON with the meal name and cooking instructions. Your re
                         {
                             role: 'system', content: `You are chefBot you simply do directly as you are told and do not add
                         any notes or extra messages. Also, do not keep any recollection of previous requests made to you. Treat each request as if its the first one received.` },
-                        { role: 'user', content: `Please provide a recipe using the following ingredients: ${ingredients}` },
+                        { role: 'system', content: prompt}
                     ],
                 },
                 {
@@ -67,7 +83,7 @@ Format the response in JSON with the meal name and cooking instructions. Your re
     };
 
     const parseInstructions = (instructions) => {
-        console.log("Instructions:", instructions);
+        console.log(instructions);
         const recipeRegex = /Recipe: (.*?)\n\nIngredients:\n([\s\S]+)\n\nInstructions:\n([\s\S]+)/;
         const stepRegex = /\d+\.\s(.+)/g;
     
@@ -101,7 +117,7 @@ Format the response in JSON with the meal name and cooking instructions. Your re
             instructions: stepsData,
         });
     
-        console.log("Parsed Recipes Data:", recipesData);
+       
         return recipesData;
     };
     
@@ -125,6 +141,7 @@ Format the response in JSON with the meal name and cooking instructions. Your re
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <p>Please enter ingredients seperated by commas</p>
                 <label htmlFor="ingredients">Enter Ingredients:</label>
                 <input
                     type="text"
@@ -145,7 +162,7 @@ Format the response in JSON with the meal name and cooking instructions. Your re
                     </ul>
                     <h4>Instructions:</h4>
                     {recipe.instructions.map((instruction, i) => (
-                        <p key={i}>{instruction}</p>
+                        <p key={i}>{i+1}.{instruction}</p>
                     ))}
                 
                 </div>
