@@ -5,8 +5,13 @@ import { State } from '@splidejs/splide';
 
 
 const OpenAIComponent = () => {
+    //state initialization and defines the "setting function" aka the function to set/update the state
+    //from my understanding useState('') declares the state and sets it to an empty string
     const [ingredients, setIngredients] = useState('');
+    // useState([]) declares the state and sets it to an empty array
     const [recipes, setRecipes] = useState([]);
+    const [instructionstate, setInstructions] = useState('');
+    const [recipeTitle, setRecipeTitle] = useState('');
 
     const handleInputChange = (e) => {
         setIngredients(e.target.value);
@@ -69,13 +74,15 @@ const OpenAIComponent = () => {
                 }
             );
 
-            //This is the response
+            //This is the response from Open AI API
             const messageContent = response.data.choices[0].message.content;
-
-
+            console.log(messageContent);
+            //sets "Instructions" state to the response from Open AI API
+            setInstructions(messageContent);
+            
             const recipesData = parseInstructions(messageContent);
 
-
+            
             setRecipes(recipesData);
         } catch (error) {
             console.error('Error:', error);
@@ -83,7 +90,9 @@ const OpenAIComponent = () => {
     };
 
     const parseInstructions = (instructions) => {
-        console.log(instructions);
+      
+
+
         const recipeRegex = /Recipe: (.*?)\n\nIngredients:\n([\s\S]+)\n\nInstructions:\n([\s\S]+)/;
         const stepRegex = /\d+\.\s(.+)/g;
     
@@ -96,13 +105,10 @@ const OpenAIComponent = () => {
         }
     
         const mealTitle = recipeMatch[1].trim();
-        console.log("Meal Title:", mealTitle);
-    
+        setRecipeTitle(mealTitle);
         const ingredients = recipeMatch[2].trim();
-        console.log("Ingredients:", ingredients);
-    
         const instructionsText = recipeMatch[3].trim();
-        console.log("Instructions Text:", instructionsText);
+    
     
         const stepsData = [];
         let stepMatch;
@@ -128,15 +134,16 @@ const OpenAIComponent = () => {
 
 
     //Saving a recipe
-    const saveRecipe = (recipe) => {
-        const data = JSON.stringify(recipe);
-        const blob = new Blob([data], { type: "text/plain" });
+    const saveRecipe = (instructions) => {
+        //removed json.stringify
+        const blob = new Blob([instructions], { type: "text/plain" });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = "recipe-" + Date.now() + ".txt";
+        //Potentially should improve date format
+        link.download = "recipe-"+recipeTitle+"-" + Date.now() + ".txt";
         document.body.appendChild(link);
         link.click();
-    };
+      };
 
     return (
         <div>
@@ -171,7 +178,8 @@ const OpenAIComponent = () => {
 
             <div>
                 {/* Button for saving to text */}
-                <button onClick={() => { saveRecipe(recipes) }}> SAVE RECIPE </button>
+                {/*Updated function to use the instructionstate */}
+                <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
             </div>
         </div>
     );
