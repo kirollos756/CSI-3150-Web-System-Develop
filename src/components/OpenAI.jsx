@@ -8,22 +8,42 @@ import chefloading from '../images/chef.png';
 const OpenAIComponent = () => {
     //state initialization and defines the "setting function" aka the function to set/update the state
     //from my understanding useState('') declares the state and sets it to an empty string
-    const [ingredients, setIngredients] = useState('');
+    const [ingredients, setIngredients] = useState(['']);
     // useState([]) declares the state and sets it to an empty array
     const [recipes, setRecipes] = useState([]);
     const [instructionstate, setInstructions] = useState('');
     const [recipeTitle, setRecipeTitle] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleInputChange = (e) => {
-        setIngredients(e.target.value);
+    const handleIngredientChange = (index, value) => {
+        const newIngredients = [...ingredients];
+        newIngredients[index] = value;
+
+        // Check if the user is typing in the last input field
+        if (index === ingredients.length - 1 && value !== '') {
+            newIngredients.push(''); // Add a new empty ingredient input
+        }
+
+        setIngredients(newIngredients);
     };
 
+    const handleReset = () => {
+        setIngredients(['']); // Reset the ingredients input field to one empty input
+    };
+
+
+
     const handleSubmit = async (e) => {
-        //enable view of loading icon here
-
         e.preventDefault();
+        //enable view of loading icon here
+        setIsLoading(true);
 
-        const prompt = `Please provide a recipe using the following ingredients only: ${ingredients} 
+        // Pulls each input tinto a string and removes any empty inputs
+        const ingredientsString = ingredients.filter((input) => input.trim() !== '').join(', ');
+        setIngredients(['']);
+
+
+        const prompt = `Please provide a recipe using the following ingredients only: ${ingredientsString} 
          Format the response starting with the Recipe Name. Your response should be literally exactly the same format below:
          just change the content to whatever the recipe is.  
         
@@ -78,6 +98,8 @@ const OpenAIComponent = () => {
             );
 
             //This is the response from Open AI API
+            setIsLoading(false);
+
             const messageContent = response.data.choices[0].message.content;
             console.log(messageContent);
             //sets "Instructions" state to the response from Open AI API
@@ -90,6 +112,7 @@ const OpenAIComponent = () => {
         } catch (error) {
             console.error('Error:', error);
         }
+
     };
 
     const parseInstructions = (instructions) => {
@@ -147,8 +170,8 @@ const OpenAIComponent = () => {
         document.body.appendChild(link);
         link.click();
     };
-    
-    
+
+
     //Styling for Loading icon
     const loadingIconStyle = {
         display: 'flex',
@@ -156,10 +179,10 @@ const OpenAIComponent = () => {
         alignItems: 'center',
         height: '10vh',
         animation: 'spin 2s linear infinite', // Adjust the duration and animation timing as needed
-      };
-    
-      // CSS keyframes for the spinning animation
-      const keyframes = `@keyframes spin {
+    };
+
+    // CSS keyframes for the spinning animation
+    const keyframes = `@keyframes spin {
         from {
           transform: rotate(0deg);
         }
@@ -169,17 +192,21 @@ const OpenAIComponent = () => {
       }`;
     return (
         <div>
-             <style>{keyframes}</style>
+            <style>{keyframes}</style>
             <form onSubmit={handleSubmit}>
-                <p>Please enter ingredients seperated by commas</p>
-                <label htmlFor="ingredients">Enter Ingredients:</label>
-                <input
-                    type="text"
-                    id="ingredients"
-                    value={ingredients}
-                    onChange={handleInputChange}
-                />
+                <p>Please enter ingredients:</p>
+                {ingredients.map((input, index) => (
+                    <div key={index}>
+                        <input
+                            type="text"
+                            value={input}
+                            onChange={(e) => handleIngredientChange(index, e.target.value)}
+                        />
+                    </div>
+                ))}
                 <button type="submit">Submit</button>
+                {/* Reset button incase users wanna clear their inputs presubmitting */}
+                <button type="button" onClick={handleReset}>Reset</button> 
             </form>
             {recipes.map((recipe, index) => (
                 <div key={index}>
@@ -198,14 +225,20 @@ const OpenAIComponent = () => {
                 </div>
 
             ))}
-            <div class="loading-icon" style={loadingIconStyle}>
-                <img src={chefloading} alt="chef loading icon" />
-            </div>
-            <div>
-                {/* Button for saving to text */}
-                {/*Updated function to use the instructionstate */}
-                <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
-            </div>
+
+            {/* Uses loading*/}
+            {isLoading && (
+                <div class="loading-icon" style={loadingIconStyle}>
+                    <img src={chefloading} alt="chef loading icon" />
+                </div>
+            )}
+            {!isLoading && recipes.length > 0 && (
+                <div>
+                    {/* Button for saving to text */}
+                    {/*Updated function to use the instructionstate */}
+                    <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
+                </div>
+            )}
         </div>
     );
 };
