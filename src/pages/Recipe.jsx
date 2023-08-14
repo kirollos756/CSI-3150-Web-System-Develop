@@ -1,13 +1,43 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+
 
 function Recipe() {
+
+  const handleShare = () => {
+    if (navigator.share) {
+      // If the Web Share API is supported
+      navigator
+        .share({
+          title: details.title,
+          text: "Check out this delicious recipe!",
+          url: window.location.href,
+        })
+        .then(() => console.log("Shared successfully"))
+        .catch((error) => console.error("Error sharing:", error));
+    } else {
+      // Fallback sharing functionality for browsers that don't support Web Share API
+      const shareUrl = `mailto:?subject=${encodeURIComponent(
+        details.title
+      )}&body=Check out this delicious recipe! ${encodeURIComponent(
+        window.location.href
+      )}`;
+      window.location.href = shareUrl;
+    }
+  };
+
+
+
   let params = useParams();
   const [details, setDetails] = useState({});
   const [activeTab, setActiveTab] = useState("instructions");
+
+
+  
 
   const fetchDetails = async () => {
     const data = await fetch(
@@ -22,12 +52,11 @@ function Recipe() {
     fetchDetails();
   }, [params.name]);
 
+  
  
 
   return (
-    
     <DetailWrapper>
- 
       <div>
         <h2>{details.title}</h2>
         <img src={details.image} alt="" />
@@ -58,8 +87,12 @@ function Recipe() {
               <ul key={ingredient.id}>{ingredient.original} </ul>
             ))}
           </ul>
-          
         )}
+        {/* Add the share button */}
+        <Button onClick={handleShare}>
+          <FontAwesomeIcon icon={faShare} />
+          Share
+        </Button>
       </Info>
     </DetailWrapper>
   );

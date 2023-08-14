@@ -7,8 +7,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 
-
-
 function Pages() {
   const location = useLocation();
   return (
@@ -18,6 +16,7 @@ function Pages() {
         <Route path="/cusine/:type" element={<Cusine />} />
         <Route path="/searched/:search" element={<Searched />} />
         <Route path="/recipe/:name" element={<Recipe />} />
+
       </Routes>
     </AnimatePresence>
   );

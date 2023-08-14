@@ -180,7 +180,7 @@ const OpenAIComponent = () => {
     <div>
       <style>{keyframes}</style>
       <form onSubmit={handleSubmit}>
-        <p>Please enter ingredients:</p>
+        <p>Please enter ingredients seperated by commas</p>
         {ingredients.map((input, index) => (
           <div key={index}>
             <input
