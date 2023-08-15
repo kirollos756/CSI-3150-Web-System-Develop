@@ -1,55 +1,61 @@
+:root {
+  --font-primary: "Montserrat", sans-serif;
+  --color-primary: #56a5ab;
+  --color-secondary: #808080;
+  --background-color: #cce2df;
+  --button-background: #4da1ab;
+  --button-hover-background: #2e2c2d;
+}
+
+
+/* Reset and Global Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
-
- 
+  font-family: var(--font-primary);
 }
+
+/* Body */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  margin: 0 20%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: 0% 20%;
-  background: #cce2df;
+  background: var(--background-color);
 }
 
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-h4 {
+/* Typography */
+h4, h3 {
   font-size: 1rem;
-  color: rgb(56, 56, 56);
+  color: #383838;
 }
 h3 {
   font-size: 1.5rem;
-  color: rgb(56, 56, 56);
   line-height: 2.5rem;
-  margin: 2rem 0rem;
+  margin: 2rem 0;
 }
-a {
-  color: rgb(56, 56, 56);
-}
-.search-button{
-  background: #4da1ab;
+
+
+/* Buttons */
+.search-button {
+  background: var(--button-background);
   border: 5px solid white;
   border-radius: 8px;
   padding: 10px 20px;
-  color: rgb(12, 12, 12);
+  color: #0c0c0c;
   font-size: larger;
-  margin: 0 0 0 10px;
+  margin-left: 10px;
+  transition: background-color 0.3s;
 }
+
 .search-button:hover {
-  background-color:#2e2c2d ;
+  background-color: var(--button-hover-background);
 }
 
 
-section {
+/* Layout */
+.section {
   margin: 2rem 0 1rem 0;
 }
 
@@ -58,53 +64,38 @@ section {
   align-items: center;
   flex-direction: column;
 }
-.header{
 
+.header {
   width: 100%;
   background-size: cover;
   overflow: cover;
-  
 }
-.nav{
-  display:flex;
+
+.nav {
+  display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
-.ul{
 
+.ul {
   list-style: none;
   display: flex;
 }
-ul li a{
+
+ul li a {
   text-decoration: none;
   margin: 0 1.5rem;
-  color:black;
+  color: black;
   text-transform: uppercase;
-  
-
-}
-input {
-  text-align:center;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
 }
 
-button {
-  width: 15%;
-  padding: 0.5rem 1rem;
- background-image: linear-gradient(35deg, #494949, #313131);
-  color: #f7f7f7;
-  border: none;
-  font-family: "Roboto", sans-serif;
-  font-size: 1rem;
+* Form Elements */
+input, textarea, button {
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
 }
-
-button:hover {
-  background-color: #6c13d1;
-  cursor: pointer;
-}
-
 
 
 h1 {

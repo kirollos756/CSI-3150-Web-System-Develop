@@ -34,8 +34,18 @@ function App() {
     setSearchQuery(event.target.value);
   };
 
+  
 
  function getMealData() {
+
+  fetch(
+    `https://api.spoonacular.com/mealplanner/generate?apiKey=b79e03aece3454d2d4c3e7578c698aac4727d173&timeFrame=day&targetCalories=${calories}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      setMealData(data);
+    });
+
   if (selectedOption === 'option1') {
     handleOpenAIRequest();
   } else if (selectedOption === 'option2') {
@@ -55,6 +65,9 @@ function App() {
       });
   }
 }
+
+
+
 
  const parseInstructions = (instructions) => {
         const recipeRegex = /Ingredients:(.*?)(?=Instructions:|\n\n|\n$|$)(.*?)(?=Ingredients:|$)/gs;
@@ -136,7 +149,6 @@ const handleOpenAIRequest = async () => {
     setCalories(e.target.value);
   }
   
-
   return (
     <div className="App">
       <section className="controls">
@@ -145,13 +157,13 @@ const handleOpenAIRequest = async () => {
           placeholder="Calories (e.g. 2000)"
           onChange={handleChange}
         />
-        
+
         <button className="search-button" onClick={getMealData}>
           Get Daily Meal Plan
         </button>
-
       </section>
-      {mealData && <MealList mealData={mealData} />}
+      {mealData !== null && <MealList mealData={mealData} />}
+  
 
       <BrowserRouter>
         <Register />
@@ -164,8 +176,8 @@ const handleOpenAIRequest = async () => {
         <div className="radio-buttons">
           <RadioButton
             options={[
-              { value: 'option1', label: 'ChefBot' },
-              { value: 'option2', label: 'Recipie Search' },
+              { value: "option1", label: "ChefBot" },
+              { value: "option2", label: "Recipie Search" },
             ]}
             selectedOption={selectedOption}
             onChange={handleOptionChange}
@@ -176,11 +188,7 @@ const handleOpenAIRequest = async () => {
           onChange={handleSearchQueryChange}
           disabled={!selectedOption} // Disable search input if no option is selected
         />
-        {selectedOption === 'option1' ? (
-          <OpenAIComp />
-        ) : (
-          <Category />
-        )}
+        {selectedOption === "option1" ? <OpenAIComp /> : <Category />}
         <Pages />
         <RatingStars />
         <GlobalStyles />

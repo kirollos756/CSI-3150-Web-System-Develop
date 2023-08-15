@@ -1,3 +1,4 @@
+// Meal.js
 import React, { useState, useEffect } from "react";
 
 export default function Meal({ meal }) {
@@ -5,7 +6,7 @@ export default function Meal({ meal }) {
 
   useEffect(() => {
     fetch(
-      `https://api.spoonacular.com/recipes/${meal.id}/information?apiKey=7e80980d0a5c4c80849eb1047ec05424&includeNutrition=false`
+      `https://api.spoonacular.com/recipes/${meal.id}/information?apiKey=cb1c464d94f142c08b156c5beddade8b&includeNutrition=false`
     )
       .then((response) => response.json())
       .then((data) => {

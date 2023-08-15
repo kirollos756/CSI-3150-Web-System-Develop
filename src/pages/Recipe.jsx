@@ -98,10 +98,24 @@ function Recipe() {
   );
 }
 
+const commonGradient =
+  "linear-gradient(to right, #e4afcb 0%, #b8cbb8 0%, #b8cbb8 0%, #e2c58b 30%, #c2ce9c 64%, #7edbdc 100%)";
+
+const sharedStyles = `
+  background-image: ${commonGradient};
+  justify-content: space-around;
+  box-shadow: 0px 5px 20px rgb(63, 60, 60);
+  border-radius: 10px;
+  margin: 20px;
+  align-items: center;
+  min-width: 40%;
+`;
+
 const DetailWrapper = styled.div`
   margin-top: 10rem;
   margin-bottom: 5rem;
   display: flex;
+
   .active {
     background-image: linear-gradient(35deg, #494949, #313131);
     color: white;
@@ -115,6 +129,7 @@ const DetailWrapper = styled.div`
     font-size: 1.2rem;
     line-height: 2.5rem;
   }
+
   ul {
     margin-top: 2rem;
   }
@@ -125,42 +140,15 @@ const Button = styled.button`
   color: #313131;
   background: white;
   border: 2px solid black;
-  margin-right: 2rem;
   font-weight: 600;
   font-size: larger;
-  margin: 0 0 0 10px;
-  background-image: linear-gradient(
-    to right,
-    #e4afcb 0%,
-    #b8cbb8 0%,
-    #b8cbb8 0%,
-    #e2c58b 30%,
-    #c2ce9c 64%,
-    #7edbdc 100%
-  );
-  justify-content: space-around;
-  box-shadow: 0px 5px 20px rgb(63, 60, 60);
-  border-radius: 10px;
-  margin: 20px;
-  align-items: center;
-  min-width: 40%;
+  background-image: ${commonGradient};
+  ${sharedStyles}
+  margin-right: 2rem; /* Remove this line if not needed */
 `;
 
 const Info = styled.div`
-  background-image: linear-gradient(
-    to right,
-    #e4afcb 0%,
-    #b8cbb8 0%,
-    #b8cbb8 0%,
-    #e2c58b 30%,
-    #c2ce9c 64%,
-    #7edbdc 100%
-  );
-  justify-content: space-around;
-  box-shadow: 0px 5px 20px rgb(63, 60, 60);
-  border-radius: 10px;
-  margin: 20px;
-  align-items: center;
-  min-width: 40%;
+  ${sharedStyles}
 `;
+
 export default Recipe;
