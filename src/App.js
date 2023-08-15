@@ -22,6 +22,8 @@ import axios from 'axios';
 import OpenAIComp from "./components/OpenAI";
 import CreateRecipe from './components/createRecipe';
 import RetrieveRecipe from './components/retrieveRecipe';
+import UpdateRecipe from './components/updateRecipe';
+import DeleteRecipe from './components/deleteRecipe';
 
 // const mongoose = require("mongoose");
 
@@ -174,12 +176,24 @@ const handleOpenAIRequest = async () => {
                     Retrieve Recipes
                   </Link>
                 </li>
+                <li className="nav-item active">
+                  <Link className="nav-link" to={'/updateRecipe'}>
+                    Update Recipes
+                  </Link>
+                </li>
+                <li className="nav-item active">
+                  <Link className="nav-link" to={'/deleteRecipe'}>
+                    Delete Recipes
+                  </Link>
+                </li>
                 
         </ul>
         <Routes>
           {/* <Route exact path="/" element={<CreateRecipe/>} /> */}
           <Route path="/createRecipe" element={<CreateRecipe />} />
           <Route path="/retrieveRecipe" element={<RetrieveRecipe />} />
+          <Route path="/updateRecipe" element={<UpdateRecipe />} />
+          <Route path="/deleteRecipe" element={<DeleteRecipe />} />
         </Routes>
 
         {/* <Nav>
