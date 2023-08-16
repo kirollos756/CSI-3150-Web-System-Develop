@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { State } from '@splidejs/splide';
 import chefloading from '../images/chef.png';
+import { set } from 'lodash';
 
 
 
@@ -14,6 +15,7 @@ const OpenAIComponent = () => {
     const [instructionstate, setInstructions] = useState('');
     const [recipeTitle, setRecipeTitle] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isEdible, setIsEdible] = useState(true);
 
     const handleIngredientChange = (index, value) => {
         const newIngredients = [...ingredients];
@@ -31,7 +33,51 @@ const OpenAIComponent = () => {
         setIngredients(['']); // Reset the ingredients input field to one empty input
     };
 
+    const validateEdibility = async (content) => {
+        const apiKey = process.env.REACT_APP_OPEN_API_KEY;
+        const orgId = process.env.REACT_APP_OPEN_API_ORGID;
 
+        try {
+            const response = await axios.post(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                    model: 'gpt-3.5-turbo-0613',
+                    temperature: 0.0,
+                    messages: [
+                        {
+                            role: 'system',
+                            content: `You are recipeValidator, check if the following content is an edible recipe:\n${content}. Simply reply with lowercase 'yes' or 'no'. `,
+                        },
+                    ],
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'OpenAI-Organization': orgId,
+                        Authorization: `Bearer ${apiKey}`,
+                    },
+                }
+            );
+
+            const messageContent = response.data.choices[0].message.content;
+            console.log('Validation response:', messageContent);
+
+            //checks if response is yes edible or no not edible
+            if (messageContent === 'yes') {
+                setIsEdible(true);
+                return true;
+            }
+            else if (messageContent === 'no') {
+                setIsEdible(false);
+                return false;
+            }
+
+
+        } catch (error) {
+            console.error('Error validating:', error);
+            return false;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -103,12 +149,29 @@ const OpenAIComponent = () => {
             const messageContent = response.data.choices[0].message.content;
             console.log(messageContent);
             //sets "Instructions" state to the response from Open AI API
-            setInstructions(messageContent);
-
-            const recipesData = parseInstructions(messageContent);
 
 
-            setRecipes(recipesData);
+            const isEdible = await validateEdibility(messageContent);
+
+
+            console.log("here");
+            console.log(isEdible);
+            if (isEdible) {
+                const recipesData = parseInstructions(messageContent);
+                setRecipes(recipesData);
+                setInstructions(messageContent);
+
+
+            } else {
+                //clears response and sets recipes to empty array
+                console.log('Response is not an edible recipe.');
+                setRecipes([]);
+                setInstructions('');
+                
+            }
+
+
+            //setRecipes(recipesData);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -206,8 +269,17 @@ const OpenAIComponent = () => {
                 ))}
                 <button type="submit">Submit</button>
                 {/* Reset button incase users wanna clear their inputs presubmitting */}
-                <button type="button" onClick={handleReset}>Reset</button> 
+                <button type="button" onClick={handleReset}>Reset</button>
             </form>
+               {/* Display edibility message */}
+            
+               {!isEdible && (
+                <div className="edibility-message">
+                    <h3>Sorry! The recipe you generated is not edible. Please try again with
+                        different ingredients.
+                    </h3>
+                </div>
+            )}
             {recipes.map((recipe, index) => (
                 <div key={index}>
                     <h3>Recipe {index + 1}: {recipe.meal_title}</h3>
@@ -225,7 +297,7 @@ const OpenAIComponent = () => {
                 </div>
 
             ))}
-
+           
             {/* Uses loading*/}
             {isLoading && (
                 <div class="loading-icon" style={loadingIconStyle}>
