@@ -6,6 +6,9 @@ import { BrowserRouter } from "react-router-dom";
 import Search from "./components/Search";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { GiKnifeFork } from "react-icons/gi";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -16,9 +19,13 @@ import { GlobalStyles } from "./components/Global-Style";
 import Footer from "./Footer";
 import Register from "./Register";
 import axios from 'axios';
-
 import OpenAIComp from "./components/OpenAI";
+import CreateRecipe from './components/createRecipe';
+import RetrieveRecipe from './components/retrieveRecipe';
+import UpdateRecipe from './components/updateRecipe';
+import DeleteRecipe from './components/deleteRecipe';
 
+// const mongoose = require("mongoose");
 
 function App() {
   const [mealData, setMealData] = useState(null);
@@ -33,6 +40,7 @@ function App() {
    const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value);
   };
+
 
 
  function getMealData() {
@@ -157,10 +165,41 @@ const handleOpenAIRequest = async () => {
         <Register />
         <Navbar />
 
-        <Nav>
+        <ul className="navbar-nav ml-auto">
+                <li className="nav-item active">
+                  <Link className="nav-link" to={'/createRecipe'}>
+                    Create recipe
+                  </Link>
+                </li>
+                <li className="nav-item active">
+                  <Link className="nav-link" to={'/retrieveRecipe'}>
+                    Retrieve Recipes
+                  </Link>
+                </li>
+                <li className="nav-item active">
+                  <Link className="nav-link" to={'/updateRecipe'}>
+                    Update Recipes
+                  </Link>
+                </li>
+                <li className="nav-item active">
+                  <Link className="nav-link" to={'/deleteRecipe'}>
+                    Delete Recipes
+                  </Link>
+                </li>
+                
+        </ul>
+        <Routes>
+          {/* <Route exact path="/" element={<CreateRecipe/>} /> */}
+          <Route path="/createRecipe" element={<CreateRecipe />} />
+          <Route path="/retrieveRecipe" element={<RetrieveRecipe />} />
+          <Route path="/updateRecipe" element={<UpdateRecipe />} />
+          <Route path="/deleteRecipe" element={<DeleteRecipe />} />
+        </Routes>
+
+        {/* <Nav>
           <GiKnifeFork />
           <Logo to={"/"}>SAVORY_RECIPES</Logo>
-        </Nav>
+        </Nav> */}
         <div className="radio-buttons">
           <RadioButton
             options={[
@@ -190,30 +229,30 @@ const handleOpenAIRequest = async () => {
   );
 }
 console.log("started succesfully");
-const Logo = styled(Link)`
-  text-decoration: none;
-  font-size: 1.8rem;
-  font-weight: 400;
-  font-family: "Lobster Two" cursive;
-`;
+// const Logo = styled(Link)`
+//   text-decoration: none;
+//   font-size: 1.8rem;
+//   font-weight: 400;
+//   font-family: "Lobster Two" cursive;
+// `;
 
 
-const Nav = styled.div`
-  padding: 4rem 0rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+// const Nav = styled.div`
+//   padding: 4rem 0rem;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
 
-  svg {
-    font-size: 2.5rem;
-  }
-`;
+//   svg {
+//     font-size: 2.5rem;
+//   }
+// `;
 
 
-const RadioButtonsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const RadioButtonsContainer = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 export default App;
