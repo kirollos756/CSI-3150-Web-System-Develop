@@ -1,37 +1,41 @@
 import React from "react";
-import {
-  Nav,
-  NavLink,
-  Bars,
-  NavMenu
-} from "./NavbarElement";
+// import {
+//   Nav,
+//   NavLink,
+//   Bars,
+//   NavMenu
+// } from "./NavbarElement";
+import { AppBar, Toolbar, Link, Typography } from '@mui/material';
 
 const Navigation = () => {
   return (
     <>
-      <Nav>
-        <Bars />
-
-        <NavMenu>
-          <NavLink to="/about" activeStyle>
-            Home
-          </NavLink>
-          <NavLink to="/home" activeStyle>
-            About
-          </NavLink>
-          <NavLink to="/events" activeStyle>
-            Events
-          </NavLink>
-          <NavLink to="/news" activeStyle>
-            News
-          </NavLink>
-          <NavLink to="/team" activeStyle>
-            Teams
-          </NavLink>
+      <AppBar color="primary" >
+        {/* <Bars /> */}
+        {/* <Typography > Savory Recipes </Typography> */}
+        <Toolbar variant="regular" component="div" sx={{ alignContent: 'center', justifyContent: 'center'}} >
+          <Typography  align="center" sx={{ marginLeft: '5%'}}>
           
-        </NavMenu>
+          <Link to="/home" underline="none" color="inherit" sx={{ m: '10px'}}>
+            Home
+          </Link>
+          
+          <Link to="/about" underline="none" color="inherit" sx={{ m: '10px'}}>
+            About
+          </Link>
+          <Link to="/events" underline="none" color="inherit" sx={{ m: '10px'}}>
+            Events
+          </Link>
+          <Link to="/news" underline="none" color="inherit" sx={{ m: '10px'}}>
+            News
+          </Link>
+          <Link to="/team" underline="none" color="inherit" sx={{ m: '10px'}}>
+            Teams
+          </Link>
+          </Typography>
+        </Toolbar>
        
-      </Nav>
+      </AppBar>
     </>
   );
 };

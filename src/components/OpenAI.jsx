@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { State } from '@splidejs/splide';
 import chefloading from '../images/chef.png';
+import { Box, Paper, Typography, Input, TextField, ButtonGroup, Button } from '@mui/material';
 
 
 
@@ -191,22 +192,39 @@ const OpenAIComponent = () => {
         }
       }`;
     return (
+        <Box sx={{
+            display: 'flex',
+            alignContent: 'center',
+            justifyContent: 'center'
+          }}>
         <div>
+        <Paper
+        variants="outlined"
+        elevation={3}
+        sx={{ width: '800px'}}
+        >
             <style>{keyframes}</style>
             <form onSubmit={handleSubmit}>
-                <p>Please enter ingredients:</p>
+                <Typography>Please enter ingredients:</Typography>
                 {ingredients.map((input, index) => (
                     <div key={index}>
-                        <input
+                        <Input
                             type="text"
                             value={input}
                             onChange={(e) => handleIngredientChange(index, e.target.value)}
+                            placeholder="Search Ingredients"
+                            variant="Outlined"
+                            sx={{
+                                width: '100%'
+                            }}
                         />
                     </div>
                 ))}
-                <button type="submit">Submit</button>
+                <ButtonGroup variant='contained' sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                <Button type="submit">Submit</Button>
                 {/* Reset button incase users wanna clear their inputs presubmitting */}
-                <button type="button" onClick={handleReset}>Reset</button> 
+                <Button type="button" onClick={handleReset}>Reset</Button> 
+                </ButtonGroup>
             </form>
             {recipes.map((recipe, index) => (
                 <div key={index}>
@@ -239,7 +257,9 @@ const OpenAIComponent = () => {
                     <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
                 </div>
             )}
+            </Paper>
         </div>
+        </Box>
     );
 };
 
