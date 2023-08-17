@@ -46,7 +46,9 @@ const OpenAIComponent = () => {
                     messages: [
                         {
                             role: 'system',
-                            content: `You are recipeValidator, check if the following content is an edible recipe:\n${content}. Simply reply with lowercase 'yes' or 'no'. `,
+                            content: `You are recipe Validator, check if the following content is an edible recipe:\n${content}. 
+                            Simply reply ONLY with lowercase 'yes' or 'no'. It IS VERY IMPORTANT YOUR RESPONSE 
+                            FORMAT IS EXACTLY lowercase yes or no.`,
                         },
                     ],
                 },
