@@ -3,6 +3,7 @@ let mongoose = require('mongoose');
 let cors = require('cors');
 let bodyParser = require('body-parser');
 const recipeRoute = require('../server/routes/recipe.routes.js')
+const userRoute = require('../server/routes/user.routes.js')
 const app = express();
 
 const createError = (x) => {
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 
 app.use('/recipes', recipeRoute);
+app.use('/user', userRoute);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { State } from '@splidejs/splide';
 import chefloading from '../images/chef.png';
+
 import { Box, Paper, Typography, Input, TextField, ButtonGroup, Button } from '@mui/material';
+
+import { set } from 'lodash';
 
 
 
@@ -15,6 +18,7 @@ const OpenAIComponent = () => {
     const [instructionstate, setInstructions] = useState('');
     const [recipeTitle, setRecipeTitle] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isEdible, setIsEdible] = useState(true);
 
     const handleIngredientChange = (index, value) => {
         const newIngredients = [...ingredients];
@@ -32,7 +36,53 @@ const OpenAIComponent = () => {
         setIngredients(['']); // Reset the ingredients input field to one empty input
     };
 
+    const validateEdibility = async (content) => {
+        const apiKey = process.env.REACT_APP_OPEN_API_KEY;
+        const orgId = process.env.REACT_APP_OPEN_API_ORGID;
 
+        try {
+            const response = await axios.post(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                    model: 'gpt-3.5-turbo-0613',
+                    temperature: 0.0,
+                    messages: [
+                        {
+                            role: 'system',
+                            content: `You are recipe Validator, check if the following content is an edible recipe:\n${content}. 
+                            Simply reply ONLY with lowercase 'yes' or 'no'. It IS VERY IMPORTANT YOUR RESPONSE 
+                            FORMAT IS EXACTLY lowercase yes or no.`,
+                        },
+                    ],
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'OpenAI-Organization': orgId,
+                        Authorization: `Bearer ${apiKey}`,
+                    },
+                }
+            );
+
+            const messageContent = response.data.choices[0].message.content;
+            console.log('Validation response:', messageContent);
+
+            //checks if response is yes edible or no not edible
+            if (messageContent === 'yes') {
+                setIsEdible(true);
+                return true;
+            }
+            else if (messageContent === 'no') {
+                setIsEdible(false);
+                return false;
+            }
+
+
+        } catch (error) {
+            console.error('Error validating:', error);
+            return false;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,7 +91,7 @@ const OpenAIComponent = () => {
 
         // Pulls each input tinto a string and removes any empty inputs
         const ingredientsString = ingredients.filter((input) => input.trim() !== '').join(', ');
-        setIngredients(['']);
+        // setIngredients(['']);
 
 
         const prompt = `Please provide a recipe using the following ingredients only: ${ingredientsString} 
@@ -102,57 +152,97 @@ const OpenAIComponent = () => {
             setIsLoading(false);
 
             const messageContent = response.data.choices[0].message.content;
-            console.log(messageContent);
-            //sets "Instructions" state to the response from Open AI API
-            setInstructions(messageContent);
+            const isEdible = await validateEdibility(messageContent);
 
-            const recipesData = parseInstructions(messageContent);
+            if (isEdible) {
+                const recipesData = parseInstructions(messageContent);
+                setRecipes(recipesData);
+                
+
+                
+                const instructions = recipesData[0].instructions.join('\n');
+                setInstructions(instructions);
+                
+            
+                const extractedIngredients = recipesData[0].ingredients.join(', ');
 
 
-            setRecipes(recipesData);
+            } else {
+                console.log('Response is not an edible recipe.');
+                setRecipes([]);
+                setInstructions('');
+            }
+
+
+
+            //setRecipes(recipesData);
         } catch (error) {
             console.error('Error:', error);
         }
 
     };
 
+    const extractIngredients = (instructions) => {
+        const ingredientsRegex = /Ingredients:\n- (.*?)\n/g;
+        const ingredientsMatch = instructions.match(ingredientsRegex);
+
+        if (!ingredientsMatch) {
+            return [];
+        }
+
+        const ingredients = ingredientsMatch.map(match => match.replace(/Ingredients:\n- /, '').trim());
+        return ingredients;
+    };
+
+
+    const extractRecipeName = (instructions) => {
+        const recipeNameRegex = /Recipe: (.*?)\n/;
+        const recipeNameMatch = instructions.match(recipeNameRegex);
+
+        if (!recipeNameMatch) {
+            return "";
+        }
+
+        const recipeName = recipeNameMatch[1].trim();
+        return recipeName;
+    };
+
+
+
     const parseInstructions = (instructions) => {
-
-
-
         const recipeRegex = /Recipe: (.*?)\n\nIngredients:\n([\s\S]+)\n\nInstructions:\n([\s\S]+)/;
-        const stepRegex = /\d+\.\s(.+)/g;
-
+        const stepRegex = /(\d+\.\s)(.+)/g; // Modified regex to capture the number prefix
+    
         const recipesData = [];
-
+    
         const recipeMatch = recipeRegex.exec(instructions);
         if (!recipeMatch) {
             console.error("Parsing error: Could not extract recipe data.");
             return recipesData;
         }
-
+    
         const mealTitle = recipeMatch[1].trim();
         setRecipeTitle(mealTitle);
         const ingredients = recipeMatch[2].trim();
         const instructionsText = recipeMatch[3].trim();
-
-
+    
         const stepsData = [];
         let stepMatch;
         while ((stepMatch = stepRegex.exec(instructionsText)) !== null) {
-            const stepInstruction = stepMatch[1].trim();
-            stepsData.push(stepInstruction);
+            const stepNumber = stepMatch[1]; // Captured step number with prefix
+            const stepInstruction = stepMatch[2].trim();
+            stepsData.push(stepNumber + stepInstruction);
         }
-
+    
         recipesData.push({
             meal_title: mealTitle,
             ingredients: ingredients.split('\n').map(item => item.trim()),
             instructions: stepsData,
         });
-
-
+    
         return recipesData;
     };
+    
 
 
 
@@ -191,6 +281,47 @@ const OpenAIComponent = () => {
           transform: rotate(360deg);
         }
       }`;
+
+    const saveRecipeToDatabase = async (recipeData) => {
+        try {
+            // Extract recipe name and ingredients
+            const { name, ingredients } = recipeData;
+
+            // Convert ingredients to an array if it's a string
+            const ingredientsArray = Array.isArray(ingredients)
+                ? ingredients
+                : ingredients.split(',').map(item => item.trim());
+
+            // Format ingredients array to a comma-separated string without extra spaces
+            const formattedIngredients = ingredientsArray.join(', ');
+
+            // Extract instructions from instructionstate and remove recipe name and ingredients
+            const instructions = instructionstate
+                .replace(`Recipe: ${name}\n\nIngredients:\n${formattedIngredients}\n\n`, '');
+
+            const response = await axios.post('http://localhost:4000/recipes/createAI', {
+                name: name,
+                instructions: instructions,
+                ingredients: formattedIngredients,
+            });
+
+            console.log('Recipe saved:', response.data);
+        } catch (error) {
+            console.error('Error saving recipe:', error);
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <Box sx={{
             display: 'flex',
@@ -223,9 +354,20 @@ const OpenAIComponent = () => {
                 <ButtonGroup variant='contained' sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
                 <Button type="submit">Submit</Button>
                 {/* Reset button incase users wanna clear their inputs presubmitting */}
+
                 <Button type="button" onClick={handleReset}>Reset</Button> 
                 </ButtonGroup>
+
             </form>
+            {/* Display edibility message */}
+
+            {!isEdible && (
+                <div className="edibility-message">
+                    <h3>Sorry! The recipe you generated is not edible. Please try again with
+                        different ingredients.
+                    </h3>
+                </div>
+            )}
             {recipes.map((recipe, index) => (
                 <div key={index}>
                     <h3>Recipe {index + 1}: {recipe.meal_title}</h3>
@@ -237,7 +379,7 @@ const OpenAIComponent = () => {
                     </ul>
                     <h4>Instructions:</h4>
                     {recipe.instructions.map((instruction, i) => (
-                        <p key={i}>{i + 1}.{instruction}</p>
+                        <p key={i}>{instruction}</p>
                     ))}
 
                 </div>
@@ -255,6 +397,25 @@ const OpenAIComponent = () => {
                     {/* Button for saving to text */}
                     {/*Updated function to use the instructionstate */}
                     <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
+                    {/* Button for saving to database */}
+                    {/* Button for saving to database */}
+                    <button onClick={() => {
+                        const extractedIngredients = recipes[0].ingredients.join(', ');
+                       
+
+                        console.log('Saving to database:', {
+                            name: recipeTitle,
+                            instructions: instructionstate,
+                            ingredients: extractedIngredients
+                        });
+                        saveRecipeToDatabase({
+                            name: recipeTitle,
+                            instructions: instructionstate,
+                            ingredients: extractedIngredients
+                        });
+                    }}>SAVE TO DATABASE</button>
+
+
                 </div>
             )}
             </Paper>

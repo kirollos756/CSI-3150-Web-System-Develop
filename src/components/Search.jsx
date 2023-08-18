@@ -1,5 +1,7 @@
+
 import { useState,useEffect } from "react";
 // import styled from "styled-components";
+
 import { FaSearch } from "react-icons/fa";
 import Category from "./Category";
 import { Box, FormGroup, Paper, Input, ButtonGroup, Button, Typography } from "@mui/material";
@@ -10,60 +12,57 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
-
 function Search() {
-  
   const [input, setInput] = useState("");
   const navigate = useNavigate();
 
-const [message, setMessage] = useState("");
-const commands = [
-  {
-    command: "reset",
-    callback: () => resetTranscript(),
-  },
-  {
-    command: "don't speak",
-    callback: () => setMessage("I wasn't talking."),
-  },
-  {
-    command: "Hello",
-    callback: () => setMessage("Hi there!"),
-  },
-];
-const {
-  transcript,
-  interimTranscript,
-  finalTranscript,
-  resetTranscript,
-  listening,
-} = useSpeechRecognition({ commands });
- useEffect(() => {
-   if (finalTranscript !== "") {
-     console.log("Got final result:", finalTranscript);
-   }
- }, [interimTranscript, finalTranscript]);
- if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-   return null;
- }
+  const [message, setMessage] = useState("");
+  const commands = [
+    {
+      command: "reset",
+      callback: () => resetTranscript(),
+    },
+    {
+      command: "don't speak",
+      callback: () => setMessage("I wasn't talking."),
+    },
+    {
+      command: "Hello",
+      callback: () => setMessage("Hi there!"),
+    },
+  ];
+  const {
+    transcript,
+    interimTranscript,
+    finalTranscript,
+    resetTranscript,
+    listening,
+  } = useSpeechRecognition({ commands });
+  useEffect(() => {
+    if (finalTranscript !== "") {
+      console.log("Got final result:", finalTranscript);
+    }
+  }, [interimTranscript, finalTranscript]);
+  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+    return null;
+  }
 
- if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-   console.log(
-     "Your browser does not support speech recognition software! Try Chrome desktop, maybe?"
-   );
- }
- const listenContinuously = () => {
-   SpeechRecognition.startListening({
-     continuous: true,
-     language: "en-GB",
-   });
- };
+  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+    console.log(
+      "Your browser does not support speech recognition software! Try Chrome desktop, maybe?"
+    );
+  }
+  const listenContinuously = () => {
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: "en-GB",
+    });
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    navigate("/searched/" + transcript );
-
-
+    const searchQuery = transcript + " " + input; // Combine the values
+    navigate("/searched/" + encodeURIComponent(searchQuery));
   };
 
   return (
@@ -100,8 +99,9 @@ const {
         >
 
         {message}
-       
+
         <FaSearch></FaSearch>
+
         <Input
           onChange={(e) => setMessage(e.target.value)}
           type="text"
@@ -111,6 +111,7 @@ const {
           sx={{
             width: '100%'
           }}
+
         />
         
         </Paper>
@@ -120,6 +121,7 @@ const {
     </Box>
   );
 }
+
 
 // const FormStyle = styled.form`
 //   margin: 0rem 20rem;
@@ -147,3 +149,4 @@ const {
 //   }
 // `;
 export default Search;
+
