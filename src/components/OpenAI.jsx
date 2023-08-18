@@ -88,7 +88,7 @@ const OpenAIComponent = () => {
 
         // Pulls each input tinto a string and removes any empty inputs
         const ingredientsString = ingredients.filter((input) => input.trim() !== '').join(', ');
-        setIngredients(['']);
+        // setIngredients(['']);
 
 
         const prompt = `Please provide a recipe using the following ingredients only: ${ingredientsString} 
@@ -149,28 +149,27 @@ const OpenAIComponent = () => {
             setIsLoading(false);
 
             const messageContent = response.data.choices[0].message.content;
-            console.log(messageContent);
-            //sets "Instructions" state to the response from Open AI API
-
-
             const isEdible = await validateEdibility(messageContent);
 
-
-            console.log("here");
-            console.log(isEdible);
             if (isEdible) {
                 const recipesData = parseInstructions(messageContent);
                 setRecipes(recipesData);
-                setInstructions(messageContent);
+                
+
+                
+                const instructions = recipesData[0].instructions.join('\n');
+                setInstructions(instructions);
+                
+            
+                const extractedIngredients = recipesData[0].ingredients.join(', ');
 
 
             } else {
-                //clears response and sets recipes to empty array
                 console.log('Response is not an edible recipe.');
                 setRecipes([]);
                 setInstructions('');
-                
             }
+
 
 
             //setRecipes(recipesData);
@@ -180,43 +179,67 @@ const OpenAIComponent = () => {
 
     };
 
+    const extractIngredients = (instructions) => {
+        const ingredientsRegex = /Ingredients:\n- (.*?)\n/g;
+        const ingredientsMatch = instructions.match(ingredientsRegex);
+
+        if (!ingredientsMatch) {
+            return [];
+        }
+
+        const ingredients = ingredientsMatch.map(match => match.replace(/Ingredients:\n- /, '').trim());
+        return ingredients;
+    };
+
+
+    const extractRecipeName = (instructions) => {
+        const recipeNameRegex = /Recipe: (.*?)\n/;
+        const recipeNameMatch = instructions.match(recipeNameRegex);
+
+        if (!recipeNameMatch) {
+            return "";
+        }
+
+        const recipeName = recipeNameMatch[1].trim();
+        return recipeName;
+    };
+
+
+
     const parseInstructions = (instructions) => {
-
-
-
         const recipeRegex = /Recipe: (.*?)\n\nIngredients:\n([\s\S]+)\n\nInstructions:\n([\s\S]+)/;
-        const stepRegex = /\d+\.\s(.+)/g;
-
+        const stepRegex = /(\d+\.\s)(.+)/g; // Modified regex to capture the number prefix
+    
         const recipesData = [];
-
+    
         const recipeMatch = recipeRegex.exec(instructions);
         if (!recipeMatch) {
             console.error("Parsing error: Could not extract recipe data.");
             return recipesData;
         }
-
+    
         const mealTitle = recipeMatch[1].trim();
         setRecipeTitle(mealTitle);
         const ingredients = recipeMatch[2].trim();
         const instructionsText = recipeMatch[3].trim();
-
-
+    
         const stepsData = [];
         let stepMatch;
         while ((stepMatch = stepRegex.exec(instructionsText)) !== null) {
-            const stepInstruction = stepMatch[1].trim();
-            stepsData.push(stepInstruction);
+            const stepNumber = stepMatch[1]; // Captured step number with prefix
+            const stepInstruction = stepMatch[2].trim();
+            stepsData.push(stepNumber + stepInstruction);
         }
-
+    
         recipesData.push({
             meal_title: mealTitle,
             ingredients: ingredients.split('\n').map(item => item.trim()),
             instructions: stepsData,
         });
-
-
+    
         return recipesData;
     };
+    
 
 
 
@@ -255,6 +278,47 @@ const OpenAIComponent = () => {
           transform: rotate(360deg);
         }
       }`;
+
+    const saveRecipeToDatabase = async (recipeData) => {
+        try {
+            // Extract recipe name and ingredients
+            const { name, ingredients } = recipeData;
+
+            // Convert ingredients to an array if it's a string
+            const ingredientsArray = Array.isArray(ingredients)
+                ? ingredients
+                : ingredients.split(',').map(item => item.trim());
+
+            // Format ingredients array to a comma-separated string without extra spaces
+            const formattedIngredients = ingredientsArray.join(', ');
+
+            // Extract instructions from instructionstate and remove recipe name and ingredients
+            const instructions = instructionstate
+                .replace(`Recipe: ${name}\n\nIngredients:\n${formattedIngredients}\n\n`, '');
+
+            const response = await axios.post('http://localhost:4000/recipes/createAI', {
+                name: name,
+                instructions: instructions,
+                ingredients: formattedIngredients,
+            });
+
+            console.log('Recipe saved:', response.data);
+        } catch (error) {
+            console.error('Error saving recipe:', error);
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <div>
             <style>{keyframes}</style>
@@ -273,9 +337,9 @@ const OpenAIComponent = () => {
                 {/* Reset button incase users wanna clear their inputs presubmitting */}
                 <button type="button" onClick={handleReset}>Reset</button>
             </form>
-               {/* Display edibility message */}
-            
-               {!isEdible && (
+            {/* Display edibility message */}
+
+            {!isEdible && (
                 <div className="edibility-message">
                     <h3>Sorry! The recipe you generated is not edible. Please try again with
                         different ingredients.
@@ -293,13 +357,13 @@ const OpenAIComponent = () => {
                     </ul>
                     <h4>Instructions:</h4>
                     {recipe.instructions.map((instruction, i) => (
-                        <p key={i}>{i + 1}.{instruction}</p>
+                        <p key={i}>{instruction}</p>
                     ))}
 
                 </div>
 
             ))}
-           
+
             {/* Uses loading*/}
             {isLoading && (
                 <div class="loading-icon" style={loadingIconStyle}>
@@ -311,6 +375,25 @@ const OpenAIComponent = () => {
                     {/* Button for saving to text */}
                     {/*Updated function to use the instructionstate */}
                     <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
+                    {/* Button for saving to database */}
+                    {/* Button for saving to database */}
+                    <button onClick={() => {
+                        const extractedIngredients = recipes[0].ingredients.join(', ');
+                       
+
+                        console.log('Saving to database:', {
+                            name: recipeTitle,
+                            instructions: instructionstate,
+                            ingredients: extractedIngredients
+                        });
+                        saveRecipeToDatabase({
+                            name: recipeTitle,
+                            instructions: instructionstate,
+                            ingredients: extractedIngredients
+                        });
+                    }}>SAVE TO DATABASE</button>
+
+
                 </div>
             )}
         </div>

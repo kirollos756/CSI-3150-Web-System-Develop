@@ -5,10 +5,10 @@ let recipeSchema = new Schema({
         type: String
     },
     instructions: {
-        type: String
+        type: [String]
     },
     ingredients: {
-        type: String
+        type: [String]
     }
 }, {
     collection: 'test'

@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
             console.log(`Username already taken: ${username}`);
-            return res.status(409);
+            return res.json({ userId: 1 });
         }
 
         // Create and save the new user

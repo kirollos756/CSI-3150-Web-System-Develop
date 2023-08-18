@@ -34,10 +34,12 @@ export default class Register extends Component {
       password: this.state.password,
     };
 
+
+    
     axios
       .post('http://localhost:4000/user/register', userObject) // Update the URL to match your backend route for user registration
       .then((res) => {
-        if (res.status === 409|| res.response.status === 409) {
+        if (res.data.userId === 1) {
           console.log('Name taken');
           this.setState({ usertaken: true });
         }
@@ -45,11 +47,12 @@ export default class Register extends Component {
           console.log(res.data);
           console.log('User registered successfully, name was good');
           this.setState({ accountCreated: true, usertaken: false });
-         
+          this.props.togglePage();
           this.props.handleRegistrationSuccess();
         }
       })
       .catch((error) => {
+        console.log("Here2")
         console.log(error);
       });
 
@@ -60,7 +63,7 @@ export default class Register extends Component {
     e.preventDefault();
     this.onSubmit(e); // Call the onSubmit function
     if (!this.state.usertaken) {
-      this.props.togglePage(); // Call the togglePage function
+      //this.props.togglePage(); // Call the togglePage function
     }
   };
 
