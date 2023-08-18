@@ -4,7 +4,7 @@ import Pages from "./pages/Pages";
 import Category from "./components/Category";
 import { BrowserRouter } from "react-router-dom";
 import Search from "./components/Search";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Router } from "react-router-dom";
 import { Routes } from "react-router-dom";
@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import MealList from "./pages/MealList";
 import Navbar from "./components/Navbar";
 import RatingStars from "./components/RatingStars";
-import { GlobalStyles } from "./components/Global-Style";
+// import { GlobalStyles } from "./components/Global-Style";
 import Footer from "./Footer";
 import Register from "./components/Register";
 import SignIn from './components/SignIn';
@@ -27,6 +27,15 @@ import RetrieveRecipe from './components/retrieveRecipe';
 import UpdateRecipe from './components/updateRecipe';
 import DeleteRecipe from './components/deleteRecipe';
 
+import { Box,
+  Input,
+  Button,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel, 
+  Paper} from '@mui/material';
 // const mongoose = require("mongoose");
 
 function App() {
@@ -150,24 +159,99 @@ function App() {
 
   return (
     <div className="App">
-      <section className="controls">
-        <input
-          type="number"
-          placeholder="Calories (e.g. 2000)"
-          onChange={handleChange}
-        />
 
-        <button className="search-button" onClick={getMealData}>
-          Get Daily Meal Plan
-        </button>
+      <Box sx={{ 
+        p: 5 , 
+        height: 50 ,  
+        border: '1px grey' , 
+        backgroundColor: 'grey', 
+        borderRadius: '16px',
+        margin: 'auto',
+        marginTop: 10, 
+        width: '25%',
+        display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'center'
+        }}
+       
+        >
 
-      </section>
-      {mealData && <MealList mealData={mealData} />}
-      <AuthPage />
+          <Box>
+          <Input
+            type="number"
+            variant="outlined"
+            placeholder="Calories (e.g. 2000)"
+            onChange={handleChange}
+            justifyContent="center"
+            sx={{
+              backgroundColor: 'primary.dark', 
+              borderRadius: '5px',
+              
+              
+            }}
+          />
+          
+          <Button className="search-button" variant="contained" onClick={getMealData} sx={{
+            m: 0.5
+          }}>
+            Get Daily Meal Plan
+          </Button> 
+          </Box>
+        
+        {mealData && <MealList mealData={mealData} />}
+      </Box>
       <BrowserRouter>
+        {/* <Register /> */}
 
         <Navbar />
 
+        
+
+        {/* <Nav>
+          <GiKnifeFork />
+          <Logo to={"/"}>SAVORY_RECIPES</Logo>
+        </Nav> */}
+        <div className="radio-buttons">
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'center',
+            justifyContent: 'center'
+          }}
+          >
+          <FormControl >
+            
+            <FormLabel sx={{ textAlign: 'center'}}> Search Engine </FormLabel>
+            <RadioGroup row defaultValue="option1" onChange={handleOptionChange} selectedOption={selectedOption}>
+
+         
+            <FormControlLabel value="option1" control={<Radio />}  label="Chef Bot" labelPlacement='top'/>
+            <FormControlLabel value="option2" control={<Radio />} label="Recipe Search" labelPlacement='top'/>
+
+          </RadioGroup>
+          </FormControl>
+          </Box>
+        </div>
+
+
+        {/* <Search
+          value={searchQuery}
+          onChange={handleSearchQueryChange}
+          disabled={!selectedOption} // Disable search input if no option is selected
+        /> */}
+
+
+        {selectedOption === 'option1' ? (
+          <OpenAIComp />
+        ) : (
+          <Search
+          value={searchQuery}
+          onChange={handleSearchQueryChange}
+          disabled={!selectedOption} // Disable search input if no option is selected
+        />
+        )}
+        <Pages />
+        {/* <RatingStars /> */}
+        
         <ul className="navbar-nav ml-auto">
           <li className="nav-item active">
             <Link className="nav-link" to={'/createRecipe'}>
@@ -199,34 +283,11 @@ function App() {
           <Route path="/deleteRecipe" element={<DeleteRecipe />} />
         </Routes>
 
-        {/* <Nav>
-          <GiKnifeFork />
-          <Logo to={"/"}>SAVORY_RECIPES</Logo>
-        </Nav> */}
-        <div className="radio-buttons">
-          <RadioButton
-            options={[
-              { value: 'option1', label: 'ChefBot' },
-              { value: 'option2', label: 'Recipie Search' },
-            ]}
-            selectedOption={selectedOption}
-            onChange={handleOptionChange}
-          />
-        </div>
-        <Search
-          value={searchQuery}
-          onChange={handleSearchQueryChange}
-          disabled={!selectedOption} // Disable search input if no option is selected
-        />
-        {selectedOption === 'option1' ? (
-          <OpenAIComp />
-        ) : (
-          <Category />
-        )}
-        <Pages />
-        <RatingStars />
-        <GlobalStyles />
         <Footer />
+        
+        
+        
+        
       </BrowserRouter>
     </div>
   );
@@ -257,5 +318,7 @@ console.log("started succesfully");
 //   justify-content: center;
 //   align-items: center;
 // `;
+
+
 
 export default App;
