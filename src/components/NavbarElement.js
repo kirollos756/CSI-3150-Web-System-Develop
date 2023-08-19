@@ -6,28 +6,31 @@ import styled from "styled-components";
 const primaryColor = "#63d471";
 const secondaryColor = "#808080";
 
+// Create a reusable styled component for shared styles
+const StyledNavLink = styled(Link)`
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  padding: 14px 16px;
+  &:hover {
+    background: #fff;
+    color: ${secondaryColor};
+  }
+`;
+
 export const Nav = styled.nav`
   background: ${primaryColor};
   height: 85px;
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Added alignment for centering */
-  padding: 0 2%; /* Used percentage for responsive padding */
+  align-items: center;
+  padding: 0 2%;
   z-index: 12;
-  position: relative; /* Added for stacking context */
+  position: relative;
 `;
 
-export const NavLink = styled(Link)`
+export const NavLink = styled(StyledNavLink)`
   display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: ${secondaryColor};
-  }
 `;
 
 export const Bars = styled(FaBars)`
@@ -62,8 +65,7 @@ export const NavBtn = styled.nav`
   }
 `;
 
-export const NavBtnLink = styled(Link)`
-  border-radius: 4px;
+export const NavBtnLink = styled(StyledNavLink)`
   background: ${secondaryColor};
   padding: 10px 22px;
   color: #000;
@@ -71,11 +73,8 @@ export const NavBtnLink = styled(Link)`
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  text-decoration: none;
   margin-left: 24px;
   &:hover {
-    transition: all 0.2s ease-in-out;
     background: #fff;
-    color: ${secondaryColor};
   }
 `;

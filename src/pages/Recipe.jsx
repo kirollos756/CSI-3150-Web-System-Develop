@@ -5,12 +5,10 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 
-
 function Recipe() {
-
   const handleShare = () => {
     if (navigator.share) {
-      // If the Web Share API is supported
+      // Web Share API support
       navigator
         .share({
           title: details.title,
@@ -20,7 +18,7 @@ function Recipe() {
         .then(() => console.log("Shared successfully"))
         .catch((error) => console.error("Error sharing:", error));
     } else {
-      // Fallback sharing functionality for browsers that don't support Web Share API
+      // Fallback for browsers that don't support Web Share API
       const shareUrl = `mailto:?subject=${encodeURIComponent(
         details.title
       )}&body=Check out this delicious recipe! ${encodeURIComponent(
@@ -30,14 +28,9 @@ function Recipe() {
     }
   };
 
-
-
   let params = useParams();
   const [details, setDetails] = useState({});
   const [activeTab, setActiveTab] = useState("instructions");
-
-
-  
 
   const fetchDetails = async () => {
     const data = await fetch(
@@ -47,13 +40,10 @@ function Recipe() {
     setDetails(detailData);
     console.log(detailData);
   };
- 
+
   useEffect(() => {
     fetchDetails();
   }, [params.name]);
-
-  
- 
 
   return (
     <DetailWrapper>

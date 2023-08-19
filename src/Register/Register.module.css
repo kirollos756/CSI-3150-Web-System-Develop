@@ -1,0 +1,21 @@
+.register {
+  width: 400px;
+  background: hsl(221, 76%, 77%);
+  border: 1px solid #dddfe2;
+  box-shadow: hsl(221, 76%, 77%);
+  border-radius: 8px;
+  padding: 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+.register > form input {
+  border-radius: 20px;
+  border: 2px solid rgb(25, 86, 165);
+  outline: none;
+  color: #1d2129;
+  margin: 2% 0;
+  width: 90%;
+  padding: 12px;
+  font-size: 16px;
+}

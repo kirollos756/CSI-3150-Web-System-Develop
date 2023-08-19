@@ -2,10 +2,9 @@
 import RadioButton from './components/RadioButton';
 import Pages from "./pages/Pages";
 import Category from "./components/Category";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Search from "./components/Search";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { GiKnifeFork } from "react-icons/gi";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -14,13 +13,15 @@ import Navbar from "./components/Navbar";
 import RatingStars from "./components/RatingStars";
 import { GlobalStyles } from "./components/Global-Style";
 import Footer from "./Footer";
-import Register from "./Register";
 import axios from 'axios';
-
 import OpenAIComp from "./components/OpenAI";
-
+import Profile from "./Profile/Profile";
+import Login from "./Login/Login"
+import Register from "./Register/Register";
 
 function App() {
+    const [userstate, setUserState] = useState({});
+
   const [mealData, setMealData] = useState(null);
   const [calories, setCalories] = useState(2000);
   const [selectedOption, setSelectedOption] = useState('');
@@ -163,12 +164,29 @@ const handleOpenAIRequest = async () => {
         </button>
       </section>
       {mealData !== null && <MealList mealData={mealData} />}
-  
-
       <BrowserRouter>
-        <Register />
+      
+        <Routes>
+          <Route
+            path="/"
+            element={
+              userstate && userstate._id ? (
+                <Profile
+                  setUserState={setUserState}
+                  username={userstate.fname}
+                />
+              ) : (
+                <Login setUserState={setUserState} />
+              )
+            }
+          />
+          <Route
+            path="/login"
+            element={<Login setUserState={setUserState} />}
+          />
+          <Route path="/signup" element={<Register />} />
+        </Routes>
         <Navbar />
-
         <Nav>
           <GiKnifeFork />
           <Logo to={"/"}>SAVORY_RECIPES</Logo>
