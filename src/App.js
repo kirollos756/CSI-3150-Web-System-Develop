@@ -27,24 +27,26 @@ import RetrieveRecipe from './components/retrieveRecipe';
 import UpdateRecipe from './components/updateRecipe';
 import DeleteRecipe from './components/deleteRecipe';
 
-import { Box,
+import {
+  Box,
   Input,
   Button,
   Radio,
   RadioGroup,
   FormControl,
   FormControlLabel,
-  FormLabel, 
-  Paper} from '@mui/material';
+  FormLabel,
+  Paper
+} from '@mui/material';
 // const mongoose = require("mongoose");
 
-function App( userID ) {
+function App(userID) {
 
   const [mealData, setMealData] = useState(null);
   const [calories, setCalories] = useState(2000);
   const [selectedOption, setSelectedOption] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  console.log('app props' , useState);
+  console.log('app props', useState);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -57,7 +59,7 @@ function App( userID ) {
 
   function getMealData() {
     if (selectedOption === 'option1') {
-      handleOpenAIRequest();
+      // handleOpenAIRequest();
     } else if (selectedOption === 'option2') {
       // Fetch data from Recipes API using the search query
       fetch('https://api.recipes.com/your-recipes-endpoint', {
@@ -104,51 +106,51 @@ function App( userID ) {
   };
 
 
-  const handleOpenAIRequest = async () => {
-    const prompt = `Please provide a recipe using the following ingredients that will be listed below. 
-      Format the response in JSON with the meal name and cooking instructions. Your response should be as follows: 
-      {
-        "meal_name": "meal name",
-        "cooking_instructions": [
-          "instruction line 1...",
-          "instruction line 2...",
-          "However many lines are needed to finish the recipe..."
-        ]
-      }
-      The ingredients are: ${searchQuery}`;
+  // const handleOpenAIRequest = async () => {
+  //   const prompt = `Please provide a recipe using the following ingredients that will be listed below. 
+  //     Format the response in JSON with the meal name and cooking instructions. Your response should be as follows: 
+  //     {
+  //       "meal_name": "meal name",
+  //       "cooking_instructions": [
+  //         "instruction line 1...",
+  //         "instruction line 2...",
+  //         "However many lines are needed to finish the recipe..."
+  //       ]
+  //     }
+  //     The ingredients are: ${searchQuery}`;
 
-    //Amelio Mansour's API key and org ID
-    const apiKey = process.env.REACT_APP_OPEN_API_KEY;
-    const orgId = process.env.REACT_APP_OPEN_API_ORGID;
+  //   //Amelio Mansour's API key and org ID
+  //   const apiKey = process.env.REACT_APP_OPEN_API_KEY;
+  //   const orgId = process.env.REACT_APP_OPEN_API_ORGID;
 
-    try {
-      const response = await axios.post(
-        'https://api.openai.com/v1/chat/completions',
-        {
-          model: 'gpt-3.5-turbo-0613',
-          messages: [
-            { role: 'system', content: `You are chefBot you simply do directly as you are told and do not add any notes or extra messages.` },
-            { role: 'user', content: prompt },
-          ],
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'OpenAI-Organization': orgId,
-            Authorization: `Bearer ${apiKey}`,
-          },
-        }
-      );
+  //   try {
+  //     const response = await axios.post(
+  //       'https://api.openai.com/v1/chat/completions',
+  //       {
+  //         model: 'gpt-3.5-turbo-0613',
+  //         messages: [
+  //           { role: 'system', content: `You are chefBot you simply do directly as you are told and do not add any notes or extra messages.` },
+  //           { role: 'user', content: prompt },
+  //         ],
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'OpenAI-Organization': orgId,
+  //           Authorization: `Bearer ${apiKey}`,
+  //         },
+  //       }
+  //      );
 
-      const messageContent = response.data.choices[0].message.content;
+  //     const messageContent = response.data.choices[0].message.content;
 
-      const recipesData = parseInstructions(messageContent);
+  //     const recipesData = parseInstructions(messageContent);
 
-      setMealData(recipesData);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  //     setMealData(recipesData);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
 
 
 
@@ -163,25 +165,25 @@ function App( userID ) {
   return (
     <div className="App">
 
-      <Box sx={{ 
-        p: 5 , 
-        height: 50 ,  
-        border: '1px grey' , 
-        backgroundColor: 'grey', 
+      <Box sx={{
+        p: 5,
+        height: 50,
+        border: '1px grey',
+        backgroundColor: 'grey',
         borderRadius: '16px',
         margin: 'auto',
-        marginTop: 10, 
+        marginTop: 10,
         width: '25%',
         display: 'flex',
         alignContent: 'center',
         justifyContent: 'center'
-        }}
-       
-        >
-        
+      }}
 
-          <Box> 
-            
+      >
+
+
+        <Box>
+
           <Input
             type="number"
             variant="outlined"
@@ -189,20 +191,20 @@ function App( userID ) {
             onChange={handleChange}
             justifyContent="center"
             sx={{
-              backgroundColor: 'primary.dark', 
+              backgroundColor: 'primary.dark',
               borderRadius: '5px',
-              
-              
+
+
             }}
           />
-          
+
           <Button className="search-button" variant="contained" onClick={getMealData} sx={{
             m: 0.5
           }}>
             Get Daily Meal Plan
-          </Button> 
-          </Box>
-        
+          </Button>
+        </Box>
+
         {mealData && <MealList mealData={mealData} />}
       </Box>
       <BrowserRouter>
@@ -222,17 +224,17 @@ function App( userID ) {
             justifyContent: 'center'
           }}
           >
-          <FormControl >
-            
-            <FormLabel sx={{ textAlign: 'center'}}> Search Engine </FormLabel>
-            <RadioGroup row defaultValue="option1" onChange={handleOptionChange} selectedOption={selectedOption}>
+            <FormControl >
 
-         
-            <FormControlLabel value="option1" control={<Radio />}  label="Chef Bot" labelPlacement='top'/>
-            <FormControlLabel value="option2" control={<Radio />} label="Recipe Search" labelPlacement='top'/>
+              <FormLabel sx={{ textAlign: 'center' }}> Search Engine </FormLabel>
+              <RadioGroup row defaultValue="option1" onChange={handleOptionChange} selectedOption={selectedOption}>
 
-          </RadioGroup>
-          </FormControl>
+
+                <FormControlLabel value="option1" control={<Radio />} label="Chef Bot" labelPlacement='top' />
+                <FormControlLabel value="option2" control={<Radio />} label="Recipe Search" labelPlacement='top' />
+
+              </RadioGroup>
+            </FormControl>
           </Box>
         </div>
 
@@ -245,17 +247,17 @@ function App( userID ) {
 
 
         {selectedOption === 'option1' ? (
-          <OpenAIComp />
+          <OpenAIComp userID={userID} />
         ) : (
           <Search
-          value={searchQuery}
-          onChange={handleSearchQueryChange}
-          disabled={!selectedOption} // Disable search input if no option is selected
-        />
+            value={searchQuery}
+            onChange={handleSearchQueryChange}
+            disabled={!selectedOption} // Disable search input if no option is selected
+          />
         )}
         <Pages />
         {/* <RatingStars /> */}
-        
+
         <ul className="navbar-nav ml-auto">
           <li className="nav-item active">
             <Link className="nav-link" to={'/createRecipe'}>
@@ -266,6 +268,7 @@ function App( userID ) {
             <Link className="nav-link" to={'/retrieveRecipe'}>
               Retrieve Recipes
             </Link>
+
           </li>
           <li className="nav-item active">
             <Link className="nav-link" to={'/updateRecipe'}>
@@ -288,10 +291,10 @@ function App( userID ) {
         </Routes>
 
         <Footer />
-        
-        
-        
-        
+
+
+
+
       </BrowserRouter>
     </div>
   );

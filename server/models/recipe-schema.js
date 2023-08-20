@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 let recipeSchema = new Schema({
+    userID:{
+        type: String
+    },
     name: {
         type: String
     },

@@ -125,7 +125,7 @@ export default class SignIn extends Component {
                             <Button onClick={this.props.togglePage}>Don't have an account? Register</Button>
                         </FormGroup>
                     ) : (
-                        <App userId={this.state.username} />
+                        <App userId={this.state.userId} />
                     )}
                 </Box>
             </div>
