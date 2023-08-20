@@ -113,7 +113,7 @@ export default class Register extends Component {
                 value="Register"
                 variant="contained"
                 onClick={this.handleFormSubmit}
-                
+                sx={{ backgroundColor: 'rgb(30,80,123)' }}
               >
                 Register
               </Button>
@@ -121,7 +121,9 @@ export default class Register extends Component {
             </div>
           </FormGroup>
         </Box>
-        <Button onClick={this.props.togglePage}>Already have an account? Log in!</Button>
+        <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center', p:1}}>
+        <Button onClick={this.props.togglePage} sx={{ color: 'rgb(30,80,123)' }}>Already have an account? Click to Log in!</Button>
+        </Box>
       </div>
     );
   }

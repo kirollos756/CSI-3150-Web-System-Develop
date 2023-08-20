@@ -71,7 +71,13 @@ export default class RetrieveRecipe extends Component {
             <div className="wrapper-recipes">
 
                     <div className="form-group">
-                        <Button value="Read Recipes" variant="contained" onClick={this.onSubmit}> Submit </Button>
+                        <Button value="Read Recipes" variant="contained" onClick={this.onSubmit} sx={{
+        backgroundColor: '#f1b341',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#15466b', // Darker color for hover effect
+        },
+    }}> Submit </Button>
                     </div>
             <div className="container">
                 <table className="table table-striped table-dark">

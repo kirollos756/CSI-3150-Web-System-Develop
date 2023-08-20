@@ -89,7 +89,7 @@ export default class UpdateRecipe extends Component {
                 <div className="form-group">
                     
                     <TextField required id="outlined-required margin-normal" value={this.state.id} onChange={this.onChangeID} label="Recipe ID"/>
-                    <Button value="searchID" variant="contained" onClick={this.onSubmit}> Search ID </Button>
+                    <Button value="searchID" variant="contained" onClick={this.onSubmit} style={{ backgroundColor: '#f1b341', color: 'white' }}> Search ID </Button>
                 </div>
                 <FormGroup onSubmit={this.onUpdate}>
                     {/* <div className="form-group">
@@ -112,7 +112,7 @@ export default class UpdateRecipe extends Component {
                         <TextField required id="outlined-required margin-normal" value={this.state.ingredients} onChange={this.onChangeIngredients} label="Recipe Ingredients"/>
                     </div>
                     <div className="form-group">
-                        <Button type="submit" value="Create recipe" variant="contained" onClick={this.onUpdate}> Update Recipe </Button>
+                        <Button type="submit" value="Create recipe" variant="contained" onClick={this.onUpdate} style={{ backgroundColor: '#f1b341', color: 'white' }}> Update Recipe </Button>
                     </div>
                 </FormGroup>
                 </Box>

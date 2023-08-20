@@ -358,10 +358,10 @@ const OpenAIComponent = ({userID}) => {
                     </div>
                 ))}
                 <ButtonGroup variant='contained' sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" style={{ backgroundColor: '#f1b341', color: 'white' }}>Submit</Button>
                 {/* Reset button incase users wanna clear their inputs presubmitting */}
 
-                <Button type="button" onClick={handleReset}>Reset</Button> 
+                <Button type="button" onClick={handleReset} style={{ backgroundColor: '#f1b341', color: 'white' }}>Reset</Button> 
                 </ButtonGroup>
 
             </form>

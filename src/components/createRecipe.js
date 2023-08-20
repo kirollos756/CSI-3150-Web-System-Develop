@@ -78,7 +78,7 @@ export default class CreateRecipe extends Component {
                         <TextField required id="outlined-required margin-normal" value={this.state.ingredients} onChange={this.onChangeIngredients} label="Recipe Ingredients"/>
                     </div>
                     <div className="form-group">
-                        <Button type="submit" value="Create recipe" variant="contained" onClick={this.onSubmit}> Submit </Button>
+                        <Button type="submit" value="Create recipe" variant="contained" onClick={this.onSubmit} style={{ backgroundColor: '#f1b341', color: 'white' }}> Submit </Button>
                     </div>
                 </FormGroup>
                 </Box>

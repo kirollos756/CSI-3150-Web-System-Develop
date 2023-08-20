@@ -14,8 +14,8 @@ import { Box, Container, TableRow, Grid, Link, ListItem, List, ListItemText, Typ
 const Footer = () => {
   return (
     <Box
-      sx={{  display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '20px'}}
-      backgroundColor="primary.main"
+      sx={{  display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '20px', position: 'fixed', bottom:0}}
+      backgroundColor="#1e507b"
     >
       <Typography color={"white"} fontSize="30px" >
         SAVORY RECIPES: YOUR INGREDIENTS, OUR RECIPES
@@ -66,7 +66,7 @@ const Footer = () => {
             </ListItem>
           </List>
         </Grid>
-      <div className="text-center p-4" style={{ backgroundColor: "darkgrey" }}>
+      <div className="text-center p-4" style={{ backgroundColor: "#1e507b" }}>
         © 2023 Copyright:
       </div>
       

@@ -154,22 +154,22 @@ function App(userID) {
 
 
 
-  function handleChange(e) {
-    setCalories(e.target.value);
-  }
+  // function handleChange(e) {
+  //   setCalories(e.target.value);
+  // }
 
-  function needState(e) {
-    console.log(mealData);
-  }
+  // function needState(e) {
+  //   console.log(userID);
+  // }
 
   return (
     <div className="App">
 
-      <Box sx={{
-        p: 5,
-        height: 50,
-        border: '1px grey',
-        backgroundColor: 'grey',
+      {/* <Box sx={{ 
+        p: 5 , 
+        height: 50 ,  
+        border: '1px grey' , 
+        backgroundColor: 'grey', 
         borderRadius: '16px',
         margin: 'auto',
         marginTop: 10,
@@ -206,13 +206,13 @@ function App(userID) {
         </Box>
 
         {mealData && <MealList mealData={mealData} />}
-      </Box>
+      </Box> */}
       <BrowserRouter>
         {/* <Register /> */}
 
         <Navbar />
         {/* <AuthPage /> */}
-        <Button onClick={needState} > Hello </Button>
+        {/* <Button onClick={needState} > Hello </Button> */}
         {/* <Nav>
           <GiKnifeFork />
           <Logo to={"/"}>SAVORY_RECIPES</Logo>
@@ -224,17 +224,21 @@ function App(userID) {
             justifyContent: 'center'
           }}
           >
-            <FormControl >
+          <FormControl >
+            
+            <FormLabel sx={{ textAlign: 'center'}}> Select Your Search Engine </FormLabel>
+            <RadioGroup row defaultValue="option2" onChange={handleOptionChange} selectedOption={selectedOption}>
 
-              <FormLabel sx={{ textAlign: 'center' }}> Search Engine </FormLabel>
-              <RadioGroup row defaultValue="option1" onChange={handleOptionChange} selectedOption={selectedOption}>
+              
 
 
                 <FormControlLabel value="option1" control={<Radio />} label="Chef Bot" labelPlacement='top' />
                 <FormControlLabel value="option2" control={<Radio />} label="Recipe Search" labelPlacement='top' />
 
+               
               </RadioGroup>
             </FormControl>
+           
           </Box>
         </div>
 

@@ -15,8 +15,8 @@ export const Nav = styled.nav`
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
-  border: 1px solid #e7e7e7;
+  background-color: #1e507b;
+  border: 1px solid #1e507b;
   margin: 0 0 0 0;
   font-family: Arial;
   font-size: 100%;
@@ -32,13 +32,13 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #808080;
+    background: #1e507b;
+    color: #1e507b;
 `;
 
 export const Bars = styled(FaBars)`
   display: none;
-  color: #808080;
+  color: #1e507b;
   @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
@@ -78,7 +78,7 @@ export const NavBtn = styled.nav`
 
 export const NavBtnLink = styled(Link)`
   border-radius: 4px;
-  background: #808080;
+  background: #1e507b;
   padding: 10px 22px;
   color: #000000;
   outline: none;

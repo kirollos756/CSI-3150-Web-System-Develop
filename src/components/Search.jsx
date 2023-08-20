@@ -78,13 +78,13 @@ function Search() {
         <ButtonGroup size="small" color="secondary" variant="contained" sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
         <Typography sx={{ paddingRight: "5px"}}> {listening ? "Listener On" : "Listener Off"}</Typography>
         <div>
-          <Button type="button" onClick={resetTranscript}>
+          <Button type="button" onClick={resetTranscript} style={{ backgroundColor: '#d63f2e', color: 'white' }}>
             Reset
           </Button>
-          <Button type="button" onClick={listenContinuously}>
+          <Button type="button" onClick={listenContinuously} style={{ backgroundColor: '#d63f2e', color: 'white' }}>
             Listen
           </Button>
-          <Button type="button" onClick={SpeechRecognition.stopListening}>
+          <Button type="button" onClick={SpeechRecognition.stopListening} style={{ backgroundColor: '#d63f2e', color: 'white' }}>
             Stop
           </Button>
         </div>
