@@ -74,7 +74,9 @@ export default class Register extends Component {
           autoComplete="off"
           sx={{
             '& .MuiTextField-root': { m: 3, width: '25ch' },
-          }}
+            display: 'flex',
+            alignContent: 'center',
+            justifyContent: 'center'}}
           noValidate
         >
           {this.state.usertaken && (
@@ -103,18 +105,23 @@ export default class Register extends Component {
               />
             </div>
             <div className="form-group">
+              <Box sx={{display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'center'}}>
               <Button
                 type="submit"
                 value="Register"
                 variant="contained"
                 onClick={this.handleFormSubmit}
+                
               >
                 Register
               </Button>
+              </Box>
             </div>
           </FormGroup>
         </Box>
-        <Button onClick={this.props.togglePage}>Already have an account? Log in</Button>
+        <Button onClick={this.props.togglePage}>Already have an account? Log in!</Button>
       </div>
     );
   }
