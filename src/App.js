@@ -38,13 +38,13 @@ import { Box,
   Paper} from '@mui/material';
 // const mongoose = require("mongoose");
 
-function App() {
+function App( userID ) {
 
   const [mealData, setMealData] = useState(null);
   const [calories, setCalories] = useState(2000);
   const [selectedOption, setSelectedOption] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-
+  console.log('app props' , useState);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -156,6 +156,9 @@ function App() {
     setCalories(e.target.value);
   }
 
+  function needState(e) {
+    console.log(mealData);
+  }
 
   return (
     <div className="App">
@@ -175,8 +178,10 @@ function App() {
         }}
        
         >
+        
 
-          <Box>
+          <Box> 
+            
           <Input
             type="number"
             variant="outlined"
@@ -204,9 +209,8 @@ function App() {
         {/* <Register /> */}
 
         <Navbar />
-
-        
-
+        {/* <AuthPage /> */}
+        <Button onClick={needState} > Hello </Button>
         {/* <Nav>
           <GiKnifeFork />
           <Logo to={"/"}>SAVORY_RECIPES</Logo>

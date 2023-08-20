@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import { FormGroup, Box, TextField, Typography } from '@mui/material';
+import App from "../App.js";
+
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -17,6 +19,8 @@ export default class SignIn extends Component {
             success: false,
             incorrectPassword: false, // Added state for incorrect password
         };
+        // this.props.userId = userId;
+        console.log('props', props);
     }
 
     onChangeUsername(e) {
@@ -27,7 +31,7 @@ export default class SignIn extends Component {
         this.setState({ password: e.target.value });
     }
 
-    onSubmit(e) {
+    async onSubmit(e) {
         e.preventDefault();
         const userObject = {
             username: this.state.username,
@@ -35,15 +39,14 @@ export default class SignIn extends Component {
         };
 
         console.log('Submitting sign-in:', userObject); // Log the userObject being sent to the server
-
-        axios.post('http://localhost:4000/user/signin', userObject)
+        await axios.post('http://localhost:4000/user/signin', userObject)
             .then((res) => {
                 console.log('Server response:', res.data); // Log the response from the server
                 console.log('User ID:', res.data.userId);
                 if (res.data.userId === 0) {
                     this.setState({ success: false, incorrectPassword: true });
                 } else if (res.data.userId) {
-                    this.setState({ success: true, incorrectPassword: false });
+                    this.setState({ success: true, incorrectPassword: false , userId: res.data.userId});
                 } else {
                     this.setState({ success: false, incorrectPassword: true });
                 }
@@ -54,7 +57,14 @@ export default class SignIn extends Component {
 
 
         this.setState({ username: '', password: '' });
-        console.log("here "+this.props.accountCreated);
+        // const user = this.state.username;
+        // this.props.userId = {user};
+
+        // console.log("here "+this.props.accountCreated);
+        console.log('props 2', this.props);
+        console.log('props 2', this.state);
+        // console.log('response', response);
+        
     }
 
     render() {
@@ -115,10 +125,12 @@ export default class SignIn extends Component {
                             <Button onClick={this.props.togglePage}>Don't have an account? Register</Button>
                         </FormGroup>
                     ) : (
-                        <Typography variant="h5">Sign In Successful!</Typography>
+                        <App userId={this.state.username} />
                     )}
                 </Box>
             </div>
         );
     }
 }
+
+

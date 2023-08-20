@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Register from './components/Register'; // Import your Register component
 import SignIn from './components/SignIn'; // Import your SignIn component
+import { Box } from '@mui/material';
 
 class AuthPage extends Component {
     constructor(props) {
@@ -17,7 +18,10 @@ class AuthPage extends Component {
 
     render() {
         return (
-            <div>
+            <Box sx={{display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'center'}}>
+            
                 {this.state.isRegisterPage ? (
                     <Register
                         togglePage={() => this.setState({ isRegisterPage: false })}
@@ -27,10 +31,11 @@ class AuthPage extends Component {
                     <SignIn
                         togglePage={() => this.setState({ isRegisterPage: true })}
                         accountCreated={this.state.accountCreated}
+                        userId={''}
                     />
                 )}
               
-            </div>
+            </Box>
         );
     }
 }
