@@ -1,9 +1,10 @@
 import React, { Component }  from 'react';
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 import { Link } from "react-router-dom";
+import { FormLabel, Container, Radio } from '@mui/material';
 
 const RadioButton = ({ options, selectedOption, onChange }) => {
 const handleOptionChange = (event) => {
@@ -22,30 +23,43 @@ const handleOptionChange = (event) => {
 
 
   return (
-    <RadioButtonContainer>
-      {options.map((option) => (
-        <Label key={option.value}>
-          <input
-            type="radio"
-            value={option.value}
-            checked={selectedOption === option.value}
-            onChange={handleOptionChange}
-          />
-          {option.label}
-        </Label>
-      ))}
-    </RadioButtonContainer>
+    // <Container>
+    //   {options.map((option) => (
+    //     <FormLabel key={option.value}>
+    //       <input
+    //         type="radio"
+    //         value={option.value}
+    //         checked={selectedOption === option.value}
+    //         onChange={handleOptionChange}
+    //       />
+    //       {option.label}
+    //     </FormLabel>
+    //   ))}
+    // </Container>
+    <Container>
+
+      <Radio
+        checked={selectedOption === 'option1'}
+        onChange={handleOptionChange}
+      />
+
+      <Radio
+        checked={selectedOption === 'option2'}
+        onChange={handleOptionChange}
+      />
+
+    </Container>
   );
 };
 
-const RadioButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const RadioButtonContainer = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
-const Label = styled.label`
-  margin-right: 10px;
-`;
+// const Label = styled.label`
+//   margin-right: 10px;
+// `;
 
 export default RadioButton;
