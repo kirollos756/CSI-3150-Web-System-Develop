@@ -73,12 +73,14 @@ export default class SignIn extends Component {
                 <Box
                     autoComplete="off"
                     sx={{
-                        '& .MuiTextField-root': { m: 3, width: '25ch' },
+                        '& .MuiTextField-root': { m: 3, width: '25ch' }, display: 'flex', alignContent: 'center', justifyContent: 'center'
                     }}
                     noValidate
+                    
                 >
                     
                     {!this.state.success ? (
+                        <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center'}} > 
                         <FormGroup onSubmit={this.onSubmit}>
                             {this.state.incorrectPassword && (
                                 <Typography variant="body2" color="error">
@@ -94,6 +96,7 @@ export default class SignIn extends Component {
 
 
                             <div className="form-group">
+                                <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center'}} >
                                 <TextField
                                     required
                                     id="outlined-required margin-normal"
@@ -101,8 +104,10 @@ export default class SignIn extends Component {
                                     onChange={this.onChangeUsername}
                                     label="Username"
                                 />
+                                </Box>
                             </div>
                             <div className="form-group">
+                                <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center'}} > 
                                 <TextField
                                     required
                                     id="outlined-required margin-normal"
@@ -111,21 +116,29 @@ export default class SignIn extends Component {
                                     label="Password"
                                     type="password"
                                 />
+                                </Box>
                             </div>
+                            
                             <div className="form-group">
+                                <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center', p:1}} >
                                 <Button
                                     type="submit"
                                     value="Sign In"
                                     variant="contained"
                                     onClick={this.onSubmit}
+                                    sx={{ backgroundColor: 'rgb(30,80,123)' }}
                                 >
                                     Sign In
                                 </Button>
-                            </div>
-                            <Button onClick={this.props.togglePage}>Don't have an account? Register</Button>
+                                </Box>
+                            </div> 
+                                
+                            <Button onClick={this.props.togglePage} sx={{ color: 'rgb(30,80,123)' }} >Don't have an account? Click to Register</Button>
+                            
                         </FormGroup>
+                        </Box>
                     ) : (
-                        <App userId={this.state.username} />
+                        <App userId={this.state.userId} />
                     )}
                 </Box>
             </div>

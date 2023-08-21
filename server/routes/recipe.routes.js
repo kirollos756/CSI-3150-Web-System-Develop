@@ -30,9 +30,10 @@ async function deleteRecipes(id){
 //AMELIO START
 router.route('/createAI').post(async (req, res, next) => {
     try {
-        const { name, instructions, ingredients } = req.body;
+        const { userID, name, instructions, ingredients } = req.body;
 
         const newRecipe = new recipe({
+            userID: userID,
             name: name,
             instructions: instructions,
             ingredients: ingredients
@@ -73,8 +74,16 @@ router.route('/create').post((req, res, next) => {
 // });
 
 router.route('/read').get((req, res) => {
-    getRecipes().then((result) => {return res.json(result)}).catch((error) => { return error });
-})
+    const userID = req.query.userID; // Get the userID from the query parameter
+    getRecipes({ userID })
+        .then((result) => {
+            return res.json(result);
+        })
+        .catch((error) => {
+            return res.status(500).json({ error: 'An error occurred' });
+        });
+});
+
 
 router.route('/edit/:id').get((req, res) => {
     // recipe.findById(req.params.id, (error, data) => {

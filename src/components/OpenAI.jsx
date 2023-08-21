@@ -9,7 +9,9 @@ import { set } from 'lodash';
 
 
 
-const OpenAIComponent = () => {
+const OpenAIComponent = ({userID}) => {
+
+  
     //state initialization and defines the "setting function" aka the function to set/update the state
     //from my understanding useState('') declares the state and sets it to an empty string
     const [ingredients, setIngredients] = useState(['']);
@@ -19,7 +21,8 @@ const OpenAIComponent = () => {
     const [recipeTitle, setRecipeTitle] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isEdible, setIsEdible] = useState(true);
-
+    //makes sure the userID is a string to pass to db
+    const [userIDstate, setUserID] = useState(userID.userId);
     const handleIngredientChange = (index, value) => {
         const newIngredients = [...ingredients];
         newIngredients[index] = value;
@@ -39,6 +42,7 @@ const OpenAIComponent = () => {
     const validateEdibility = async (content) => {
         const apiKey = process.env.REACT_APP_OPEN_API_KEY;
         const orgId = process.env.REACT_APP_OPEN_API_ORGID;
+
 
         try {
             const response = await axios.post(
@@ -66,7 +70,7 @@ const OpenAIComponent = () => {
 
             const messageContent = response.data.choices[0].message.content;
             console.log('Validation response:', messageContent);
-
+            
             //checks if response is yes edible or no not edible
             if (messageContent === 'yes') {
                 setIsEdible(true);
@@ -153,6 +157,7 @@ const OpenAIComponent = () => {
 
             const messageContent = response.data.choices[0].message.content;
             const isEdible = await validateEdibility(messageContent);
+            console.log("userID from openAI", userIDstate);
 
             if (isEdible) {
                 const recipesData = parseInstructions(messageContent);
@@ -300,6 +305,7 @@ const OpenAIComponent = () => {
                 .replace(`Recipe: ${name}\n\nIngredients:\n${formattedIngredients}\n\n`, '');
 
             const response = await axios.post('http://localhost:4000/recipes/createAI', {
+                userID: userIDstate,
                 name: name,
                 instructions: instructions,
                 ingredients: formattedIngredients,
@@ -352,10 +358,10 @@ const OpenAIComponent = () => {
                     </div>
                 ))}
                 <ButtonGroup variant='contained' sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" style={{ backgroundColor: '#f1b341', color: 'white' }}>Submit</Button>
                 {/* Reset button incase users wanna clear their inputs presubmitting */}
 
-                <Button type="button" onClick={handleReset}>Reset</Button> 
+                <Button type="button" onClick={handleReset} style={{ backgroundColor: '#f1b341', color: 'white' }}>Reset</Button> 
                 </ButtonGroup>
 
             </form>
@@ -404,6 +410,7 @@ const OpenAIComponent = () => {
                        
 
                         console.log('Saving to database:', {
+                            userID: userID.userId,
                             name: recipeTitle,
                             instructions: instructionstate,
                             ingredients: extractedIngredients

@@ -6,10 +6,20 @@ import React from "react";
 //   NavMenu
 // } from "./NavbarElement";
 import { AppBar, Toolbar, Link, Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles'; // Import createTheme and ThemeProvider
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1e507b', //Primary color override
+    },
+  },
+});
 
 const Navigation = () => {
   return (
-    <>
+    <ThemeProvider theme={theme}> 
       <AppBar color="primary" >
         {/* <Bars /> */}
         {/* <Typography > Savory Recipes </Typography> */}
@@ -36,7 +46,7 @@ const Navigation = () => {
         </Toolbar>
        
       </AppBar>
-    </>
+    </ThemeProvider>
   );
 };
 

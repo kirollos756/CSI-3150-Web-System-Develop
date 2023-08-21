@@ -8,19 +8,19 @@ function Category() {
   return (
     <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
     <List>
-      <IconButton href="/cusine/Italian">
+      <IconButton href="/cusine/Italian" sx={iconButtonStyles}>
         <FaPizzaSlice />
         <h4>Italian</h4>
       </IconButton>
-      <IconButton href="/cusine/American">
+      <IconButton href="/cusine/American" sx={iconButtonStyles}>
         <FaHamburger />
         <h4>American</h4>
       </IconButton>
-      <IconButton href="/cusine/Thai">
+      <IconButton href="/cusine/Thai" sx={iconButtonStyles}>
         <GiNoodles />
         <h4>Thai</h4>
       </IconButton>
-      <IconButton href="/cusine/Japanese">
+      <IconButton href="/cusine/Japanese" sx={iconButtonStyles}>
         <GiChopsticks />
         <h4>Japanese</h4>
       </IconButton>
@@ -28,7 +28,13 @@ function Category() {
     </Box>
   );
 }
-
+const iconButtonStyles = {
+  "&:hover": {
+    // Set your custom hover styles here
+    backgroundColor: "#3ea7bb",
+    // Other styling properties
+  },
+};
 // const List = styled.div`
 //   display: flex;
 //   justify-content: center;
