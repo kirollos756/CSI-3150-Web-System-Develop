@@ -73,16 +73,28 @@ router.route('/create').post((req, res, next) => {
 //     console.log(res);
 // });
 
-router.route('/read').get((req, res) => {
-    const userID = req.query.userID; // Get the userID from the query parameter
-    getRecipes({ userID })
-        .then((result) => {
-            return res.json(result);
-        })
-        .catch((error) => {
-            return res.status(500).json({ error: 'An error occurred' });
-        });
-});
+
+//amelio here again  
+router.route('/read').get(async (req, res) => {
+    const userID = req.query.userID;
+  
+    console.log('Backend received userID:', userID);
+  
+    if (!userID) {
+      return res.status(400).json({ error: 'userID is required' });
+    }
+  
+    try {
+      const recipes = await recipe.find({ userID: userID }); // Use the Recipe model here
+      console.log('Sending recipes:', recipes);
+      return res.json(recipes);
+    } catch (error) {
+      console.log('Error fetching recipes:', error);
+      return res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+  
+//amelio ends here  
 
 
 router.route('/edit/:id').get((req, res) => {
