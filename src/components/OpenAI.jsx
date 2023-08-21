@@ -36,7 +36,10 @@ const OpenAIComponent = ({userID}) => {
     };
 
     const handleReset = () => {
-        setIngredients(['']); // Reset the ingredients input field to one empty input
+        setIngredients(['']);
+        setRecipes([]);
+        setInstructions('');
+        setIsEdible(true);
     };
 
     const validateEdibility = async (content) => {

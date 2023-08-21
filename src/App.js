@@ -269,9 +269,10 @@ function App(userID) {
             </Link>
           </li>
           <li className="nav-item active">
-            <Link className="nav-link" to={'/retrieveRecipe'}>
+            {/* <Link className="nav-link" to={'/retrieveRecipe'}>
               Retrieve Recipes
-            </Link>
+            </Link> */}
+            <RetrieveRecipe userID={userID}/>
 
           </li>
           <li className="nav-item active">
@@ -294,7 +295,7 @@ function App(userID) {
           <Route path="/deleteRecipe" element={<DeleteRecipe />} />
         </Routes>
 
-        <Footer />
+        {/* <Footer /> */}
 
 
 
