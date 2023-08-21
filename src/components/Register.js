@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import { FormGroup, Box, TextField, Typography } from '@mui/material';
+import { AccountCircle, Lock, CheckCircleOutline } from '@mui/icons-material'; // Import MUI icons
 
 export default class Register extends Component {
   constructor(props) {
@@ -81,7 +82,7 @@ export default class Register extends Component {
         >
           {this.state.usertaken && (
             <Typography variant="body2" color="error">
-              UserName is taken, Try again.
+              <AccountCircle /> UserName is taken, Try again.
             </Typography>
           )}
           <FormGroup onSubmit={this.onSubmit}>
@@ -92,6 +93,9 @@ export default class Register extends Component {
                 value={this.state.username}
                 onChange={this.onChangeUsername}
                 label="Username"
+                InputProps={{
+                  startAdornment: <AccountCircle />,
+                }}
               />
             </div>
             <div className="form-group">
@@ -102,27 +106,31 @@ export default class Register extends Component {
                 onChange={this.onChangePassword}
                 label="Password"
                 type="password"
+                InputProps={{
+                  startAdornment: <Lock />,
+                }}
               />
             </div>
             <div className="form-group">
-              <Box sx={{display: 'flex',
-        alignContent: 'center',
-        justifyContent: 'center'}}>
-              <Button
-                type="submit"
-                value="Register"
-                variant="contained"
-                onClick={this.handleFormSubmit}
-                sx={{ backgroundColor: 'rgb(30,80,123)' }}
-              >
-                Register
-              </Button>
+              <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+                <Button
+                  type="submit"
+                  value="Register"
+                  variant="contained"
+                  onClick={this.handleFormSubmit}
+                  sx={{ backgroundColor: 'rgb(30,80,123)' }}
+                  startIcon={<CheckCircleOutline />}
+                >
+                  Register
+                </Button>
               </Box>
             </div>
           </FormGroup>
         </Box>
-        <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center', p:1}}>
-        <Button onClick={this.props.togglePage} sx={{ color: 'rgb(30,80,123)' }}>Already have an account? Click to Log in!</Button>
+        <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center', p: 1 }}>
+          
+          <Button onClick={this.props.togglePage} sx={{ color: 'rgb(30,80,123)' }}>Already have an account? Click to Log in!</Button>
+   
         </Box>
       </div>
     );

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import { FormGroup, Box, TextField, Typography } from '@mui/material';
-import App from "../App.js";
+import { AccountCircle, Lock, CheckCircleOutline, ErrorOutline } from '@mui/icons-material'; // Import MUI icons
+import App from '../App.js';
 
 
 export default class SignIn extends Component {
@@ -73,69 +74,81 @@ export default class SignIn extends Component {
                 <Box
                     autoComplete="off"
                     sx={{
-                        '& .MuiTextField-root': { m: 3, width: '25ch' }, display: 'flex', alignContent: 'center', justifyContent: 'center'
+                        '& .MuiTextField-root': { m: 3, width: '25ch' },
+                        display: 'flex',
+                        alignContent: 'center',
+                        justifyContent: 'center',
                     }}
                     noValidate
-                    
                 >
-                    
                     {!this.state.success ? (
-                        <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center'}} > 
-                        <FormGroup onSubmit={this.onSubmit}>
-                            {this.state.incorrectPassword && (
-                                <Typography variant="body2" color="error">
-                                    Unsuccessful Sign In. Please try again.
-                                </Typography>
-                            )}
-                            
-                            {this.props.accountCreated && (
-                                <Typography variant="body2" color="success">
-                                    Account successfully created! Please login.
-                                </Typography>
-                            )}
+                        <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+                            <FormGroup onSubmit={this.onSubmit}>
+                                {this.state.incorrectPassword && (
+                                    <Typography variant="body2" color="error">
+                                        <ErrorOutline /> Unsuccessful Sign In. Please try again.
+                                    </Typography>
+                                )}
 
+                                {this.props.accountCreated && (
+                                    <Typography variant="body2" color="success">
+                                        <CheckCircleOutline /> Account successfully created! Please login.
+                                    </Typography>
+                                )}
 
-                            <div className="form-group">
-                                <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center'}} >
-                                <TextField
-                                    required
-                                    id="outlined-required margin-normal"
-                                    value={this.state.username}
-                                    onChange={this.onChangeUsername}
-                                    label="Username"
-                                />
-                                </Box>
-                            </div>
-                            <div className="form-group">
-                                <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center'}} > 
-                                <TextField
-                                    required
-                                    id="outlined-required margin-normal"
-                                    value={this.state.password}
-                                    onChange={this.onChangePassword}
-                                    label="Password"
-                                    type="password"
-                                />
-                                </Box>
-                            </div>
-                            
-                            <div className="form-group">
-                                <Box sx={{display: 'flex', alignContent: 'center', justifyContent: 'center', p:1}} >
+                                <div className="form-group">
+                                    <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+                                        <TextField
+                                            required
+                                            id="outlined-required margin-normal"
+                                            value={this.state.username}
+                                            onChange={this.onChangeUsername}
+                                            label="Username"
+                                            InputProps={{
+                                                startAdornment: <AccountCircle />,
+                                            }}
+                                        />
+                                    </Box>
+                                </div>
+                                <div className="form-group">
+                                    <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+                                        <TextField
+                                            required
+                                            id="outlined-required margin-normal"
+                                            value={this.state.password}
+                                            onChange={this.onChangePassword}
+                                            label="Password"
+                                            type="password"
+                                            InputProps={{
+                                                startAdornment: <Lock />,
+                                            }}
+                                        />
+                                    </Box>
+                                </div>
+
+                                <div className="form-group">
+                                    <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center', p: 1 }}>
+                                        <Button
+                                            type="submit"
+                                            value="Sign In"
+                                            variant="contained"
+                                            onClick={this.onSubmit}
+                                            sx={{ backgroundColor: 'rgb(30,80,123)' }}
+                                            startIcon={<CheckCircleOutline />}
+                                        >
+                                            Sign In
+                                        </Button>
+                                    </Box>
+                                </div>
+
                                 <Button
-                                    type="submit"
-                                    value="Sign In"
-                                    variant="contained"
-                                    onClick={this.onSubmit}
-                                    sx={{ backgroundColor: 'rgb(30,80,123)' }}
+                                    onClick={this.props.togglePage}
+                                    sx={{ color: 'rgb(30,80,123)' }}
+                                    startIcon={<AccountCircle />}
                                 >
-                                    Sign In
+                                    Don't have an account? Click to Register
                                 </Button>
-                                </Box>
-                            </div> 
-                                
-                            <Button onClick={this.props.togglePage} sx={{ color: 'rgb(30,80,123)' }} >Don't have an account? Click to Register</Button>
-                            
-                        </FormGroup>
+                            </FormGroup>
                         </Box>
                     ) : (
                         <App userId={this.state.userId} />
@@ -145,5 +158,3 @@ export default class SignIn extends Component {
         );
     }
 }
-
-

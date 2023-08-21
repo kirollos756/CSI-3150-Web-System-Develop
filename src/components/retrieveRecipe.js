@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
 const RetrieveRecipe = ({ userID }) => {
   const [recipeCollection, setRecipeCollection] = useState([]);
@@ -10,22 +9,17 @@ const RetrieveRecipe = ({ userID }) => {
   const [showHeaders, setShowHeaders] = useState(false);
   const [showRecipes, setShowRecipes] = useState(true);
   const [userIDstate, setUserID] = useState(userID.userId);
-  console.log('userIDstate', userIDstate);
-  console.log('userIDobject', userID)
 
-  const fetchRecipesByUserID = async () => { // No need to pass userIDstate here
+  const fetchRecipesByUserID = async () => {
     try {
-      console.log('Fetching recipes with userID:', userID);
-
       const response = await axios.get('http://localhost:4000/recipes/read', {
         params: {
-          userID: userIDstate // Pass the userID as a query parameter
+          userID: userIDstate
         }
       });
       const lst = response.data;
-      console.log('Received recipes:', lst);
       setRecipeCollection(lst);
-      setShowHeaders(true); // Show headers after retrieving recipes
+      setShowHeaders(true);
     } catch (e) {
       console.log('Error fetching recipes:', e);
     }
@@ -38,10 +32,13 @@ const RetrieveRecipe = ({ userID }) => {
   return (
     <div className="wrapper-recipes">
       <div className="form-group">
-        {showRecipes ? ( // Show "Retrieve Recipes" button if showRecipes is true
+        {showRecipes ? (
           <Button
             variant="contained"
-            onClick={() => fetchRecipesByUserID(userIDstate)}
+            onClick={() => {
+              fetchRecipesByUserID(userIDstate);
+              setShowRecipes(false); // Toggle showRecipes when retrieving recipes
+            }}
             sx={{
               backgroundColor: '#f1b341',
               color: 'white',
@@ -49,16 +46,17 @@ const RetrieveRecipe = ({ userID }) => {
                 backgroundColor: '#15466b',
               },
             }}
+            startIcon={<KeyboardArrowDown />}
           >
             Retrieve Recipes
           </Button>
-        ) : ( // Show "Hide Recipes" button if showRecipes is false
+        ) : (
           <Button
             variant="contained"
             onClick={() => {
               setShowHeaders(false);
               setShowRecipes(true);
-              setRecipeCollection([]); // Clear recipe data when hiding
+              setRecipeCollection([]);
             }}
             sx={{
               backgroundColor: '#f1b341',
@@ -67,6 +65,7 @@ const RetrieveRecipe = ({ userID }) => {
                 backgroundColor: '#15466b',
               },
             }}
+            startIcon={<KeyboardArrowUp />}
           >
             Hide Recipes
           </Button>
@@ -74,7 +73,7 @@ const RetrieveRecipe = ({ userID }) => {
       </div>
       <TableContainer component={Paper}>
         <Table>
-          {showHeaders && ( // Conditionally render headers if showHeaders is true
+          {showHeaders && (
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
@@ -91,9 +90,9 @@ const RetrieveRecipe = ({ userID }) => {
                     onClick={() => toggleRecipeExpansion(index)}
                     startIcon={
                       expandedRecipeIndex === index ? (
-                        <KeyboardArrowUpIcon />
+                        <KeyboardArrowUp />
                       ) : (
-                        <KeyboardArrowDownIcon />
+                        <KeyboardArrowDown />
                       )
                     }
                   >

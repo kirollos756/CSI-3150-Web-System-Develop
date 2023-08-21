@@ -4,14 +4,15 @@ import { State } from '@splidejs/splide';
 import chefloading from '../images/chef.png';
 
 import { Box, Paper, Typography, Input, TextField, ButtonGroup, Button } from '@mui/material';
+import { CloudUpload, Refresh } from '@mui/icons-material'; // Importing the icons
 
 import { set } from 'lodash';
 
 
 
-const OpenAIComponent = ({userID}) => {
+const OpenAIComponent = ({ userID }) => {
 
-  
+
     //state initialization and defines the "setting function" aka the function to set/update the state
     //from my understanding useState('') declares the state and sets it to an empty string
     const [ingredients, setIngredients] = useState(['']);
@@ -73,7 +74,7 @@ const OpenAIComponent = ({userID}) => {
 
             const messageContent = response.data.choices[0].message.content;
             console.log('Validation response:', messageContent);
-            
+
             //checks if response is yes edible or no not edible
             if (messageContent === 'yes') {
                 setIsEdible(true);
@@ -165,13 +166,13 @@ const OpenAIComponent = ({userID}) => {
             if (isEdible) {
                 const recipesData = parseInstructions(messageContent);
                 setRecipes(recipesData);
-                
 
-                
+
+
                 const instructions = recipesData[0].instructions.join('\n');
                 setInstructions(instructions);
-                
-            
+
+
                 const extractedIngredients = recipesData[0].ingredients.join(', ');
 
 
@@ -220,20 +221,20 @@ const OpenAIComponent = ({userID}) => {
     const parseInstructions = (instructions) => {
         const recipeRegex = /Recipe: (.*?)\n\nIngredients:\n([\s\S]+)\n\nInstructions:\n([\s\S]+)/;
         const stepRegex = /(\d+\.\s)(.+)/g; // Modified regex to capture the number prefix
-    
+
         const recipesData = [];
-    
+
         const recipeMatch = recipeRegex.exec(instructions);
         if (!recipeMatch) {
             console.error("Parsing error: Could not extract recipe data.");
             return recipesData;
         }
-    
+
         const mealTitle = recipeMatch[1].trim();
         setRecipeTitle(mealTitle);
         const ingredients = recipeMatch[2].trim();
         const instructionsText = recipeMatch[3].trim();
-    
+
         const stepsData = [];
         let stepMatch;
         while ((stepMatch = stepRegex.exec(instructionsText)) !== null) {
@@ -241,16 +242,16 @@ const OpenAIComponent = ({userID}) => {
             const stepInstruction = stepMatch[2].trim();
             stepsData.push(stepNumber + stepInstruction);
         }
-    
+
         recipesData.push({
             meal_title: mealTitle,
             ingredients: ingredients.split('\n').map(item => item.trim()),
             instructions: stepsData,
         });
-    
+
         return recipesData;
     };
-    
+
 
 
 
@@ -336,100 +337,102 @@ const OpenAIComponent = ({userID}) => {
             display: 'flex',
             alignContent: 'center',
             justifyContent: 'center'
-          }}>
-        <div>
-        <Paper
-        variants="outlined"
-        elevation={3}
-        sx={{ width: '800px'}}
-        >
-            <style>{keyframes}</style>
-            <form onSubmit={handleSubmit}>
-                <Typography>Please enter ingredients:</Typography>
-                {ingredients.map((input, index) => (
-                    <div key={index}>
-                        <Input
-                            type="text"
-                            value={input}
-                            onChange={(e) => handleIngredientChange(index, e.target.value)}
-                            placeholder="Search Ingredients"
-                            variant="Outlined"
-                            sx={{
-                                width: '100%'
-                            }}
-                        />
-                    </div>
-                ))}
-                <ButtonGroup variant='contained' sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-                <Button type="submit" style={{ backgroundColor: '#f1b341', color: 'white' }}>Submit</Button>
-                {/* Reset button incase users wanna clear their inputs presubmitting */}
-
-                <Button type="button" onClick={handleReset} style={{ backgroundColor: '#f1b341', color: 'white' }}>Reset</Button> 
-                </ButtonGroup>
-
-            </form>
-            {/* Display edibility message */}
-
-            {!isEdible && (
-                <div className="edibility-message">
-                    <h3>Sorry! The recipe you generated is not edible. Please try again with
-                        different ingredients.
-                    </h3>
-                </div>
-            )}
-            {recipes.map((recipe, index) => (
-                <div key={index}>
-                    <h3>Recipe {index + 1}: {recipe.meal_title}</h3>
-                    <h4>Ingredients:</h4>
-                    <ul>
-                        {recipe.ingredients.map((ingredient, i) => (
-                            <li key={i}>{ingredient}</li>
+        }}>
+            <div>
+                <Paper
+                    variants="outlined"
+                    elevation={3}
+                    sx={{ width: '800px' }}
+                >
+                    <style>{keyframes}</style>
+                    <form onSubmit={handleSubmit}>
+                        <Typography>Please enter ingredients:</Typography>
+                        {ingredients.map((input, index) => (
+                            <div key={index}>
+                                <Input
+                                    type="text"
+                                    value={input}
+                                    onChange={(e) => handleIngredientChange(index, e.target.value)}
+                                    placeholder="Search Ingredients"
+                                    variant="Outlined"
+                                    sx={{
+                                        width: '100%'
+                                    }}
+                                />
+                            </div>
                         ))}
-                    </ul>
-                    <h4>Instructions:</h4>
-                    {recipe.instructions.map((instruction, i) => (
-                        <p key={i}>{instruction}</p>
+                        <ButtonGroup variant="contained" sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+                            <Button type="submit" style={{ backgroundColor: '#f1b341', color: 'white' }}>
+                                <CloudUpload style={{ marginRight: '8px' }} /> Submit
+                            </Button>
+                            <Button type="button" onClick={handleReset} style={{ backgroundColor: '#f1b341', color: 'white' }}>
+                                <Refresh style={{ marginRight: '8px' }} /> Reset
+                            </Button>
+                        </ButtonGroup>
+
+                    </form>
+                    {/* Display edibility message */}
+
+                    {!isEdible && (
+                        <div className="edibility-message">
+                            <h3>Sorry! The recipe you generated is not edible. Please try again with
+                                different ingredients.
+                            </h3>
+                        </div>
+                    )}
+                    {recipes.map((recipe, index) => (
+                        <div key={index}>
+                            <h3>Recipe {index + 1}: {recipe.meal_title}</h3>
+                            <h4>Ingredients:</h4>
+                            <ul>
+                                {recipe.ingredients.map((ingredient, i) => (
+                                    <li key={i}>{ingredient}</li>
+                                ))}
+                            </ul>
+                            <h4>Instructions:</h4>
+                            {recipe.instructions.map((instruction, i) => (
+                                <p key={i}>{instruction}</p>
+                            ))}
+
+                        </div>
+
                     ))}
 
-                </div>
-
-            ))}
-
-            {/* Uses loading*/}
-            {isLoading && (
-                <div class="loading-icon" style={loadingIconStyle}>
-                    <img src={chefloading} alt="chef loading icon" />
-                </div>
-            )}
-            {!isLoading && recipes.length > 0 && (
-                <div>
-                    {/* Button for saving to text */}
-                    {/*Updated function to use the instructionstate */}
-                    <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
-                    {/* Button for saving to database */}
-                    {/* Button for saving to database */}
-                    <button onClick={() => {
-                        const extractedIngredients = recipes[0].ingredients.join(', ');
-                       
-
-                        console.log('Saving to database:', {
-                            userID: userID.userId,
-                            name: recipeTitle,
-                            instructions: instructionstate,
-                            ingredients: extractedIngredients
-                        });
-                        saveRecipeToDatabase({
-                            name: recipeTitle,
-                            instructions: instructionstate,
-                            ingredients: extractedIngredients
-                        });
-                    }}>SAVE TO DATABASE</button>
+                    {/* Uses loading*/}
+                    {isLoading && (
+                        <div class="loading-icon" style={loadingIconStyle}>
+                            <img src={chefloading} alt="chef loading icon" />
+                        </div>
+                    )}
+                    {!isLoading && recipes.length > 0 && (
+                        <div>
+                            {/* Button for saving to text */}
+                            {/*Updated function to use the instructionstate */}
+                            <button onClick={() => { saveRecipe(instructionstate) }}> SAVE RECIPE </button>
+                            {/* Button for saving to database */}
+                            {/* Button for saving to database */}
+                            <button onClick={() => {
+                                const extractedIngredients = recipes[0].ingredients.join(', ');
 
 
-                </div>
-            )}
-            </Paper>
-        </div>
+                                console.log('Saving to database:', {
+                                    userID: userID.userId,
+                                    name: recipeTitle,
+                                    instructions: instructionstate,
+                                    ingredients: extractedIngredients
+                                });
+                                saveRecipeToDatabase({
+                                    name: recipeTitle,
+                                    instructions: instructionstate,
+                                    ingredients: extractedIngredients
+                                });
+                            }}>SAVE TO DATABASE</button>
+
+
+                        </div>
+                    )}
+                </Paper>
+            </div>
         </Box>
     );
 };
