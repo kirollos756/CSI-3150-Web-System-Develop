@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import Register from './components/Register'; // Import your Register component
 import SignIn from './components/SignIn'; // Import your SignIn component
-import { Box , Typography } from '@mui/material';
+import { Box , Typography, CssBaseline,
+    ThemeProvider,
+    createTheme } from '@mui/material';
+
+const theme = createTheme({
+    palette: {
+      background: {
+        default: "#a6c1d9", // Set your desired background color
+      },
+    },
+});
 
 class AuthPage extends Component {
     constructor(props) {
@@ -18,6 +28,8 @@ class AuthPage extends Component {
 
     render() {
         return (
+            <ThemeProvider theme={theme}>
+            <CssBaseline /> {/* Apply a baseline of CSS resets */}
             <Box >
 
             <Typography variant='h1'
@@ -42,6 +54,7 @@ class AuthPage extends Component {
                 )}
               
             </Box>
+            </ThemeProvider>
         );
     }
 }

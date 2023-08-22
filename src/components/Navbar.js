@@ -24,7 +24,7 @@ const Navigation = () => {
         {/* <Bars /> */}
         {/* <Typography > Savory Recipes </Typography> */}
         <Toolbar variant="regular" component="div" sx={{ alignContent: 'center', justifyContent: 'center'}} >
-          <Typography  align="center" sx={{ marginLeft: '5%'}}>
+          <Typography  align="center" >
           
           <Link to="/home" underline="none" color="inherit" sx={{ m: '10px'}}>
             Home
