@@ -263,28 +263,15 @@ function App(userID) {
         {/* <RatingStars /> */}
 
         <ul className="navbar-nav ml-auto">
-          <li className="nav-item active">
-            <Link className="nav-link" to={'/createRecipe'}>
-              Create recipe
-            </Link>
-          </li>
-          <li className="nav-item active">
+          
+          
             {/* <Link className="nav-link" to={'/retrieveRecipe'}>
               Retrieve Recipes
             </Link> */}
             <RetrieveRecipe userID={userID}/>
 
-          </li>
-          <li className="nav-item active">
-            <Link className="nav-link" to={'/updateRecipe'}>
-              Update Recipes
-            </Link>
-          </li>
-          <li className="nav-item active">
-            <Link className="nav-link" to={'/deleteRecipe'}>
-              Delete Recipes
-            </Link>
-          </li>
+         
+        
 
         </ul>
         <Routes>

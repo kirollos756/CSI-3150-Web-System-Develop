@@ -146,9 +146,9 @@ const RetrieveRecipe = ({ userID }) => {
                 <TableCell>
                   {expandedRecipeIndex === index && (
                     <div>
+                    
                       {editModeIndex === index ? (
-                        <input
-                          type="text"
+                        <textarea
                           value={recipe.ingredients}
                           onChange={(e) => handleInputChange(index, 'ingredients', e.target.value)}
                           style={{ width: '100%', height: '100px' }} // Adjust the height as needed
@@ -158,12 +158,13 @@ const RetrieveRecipe = ({ userID }) => {
                       )}
                     </div>
                   )}
-                  {/* ... */}
+                </TableCell>
+                <TableCell>
                   {expandedRecipeIndex === index && (
                     <div>
+                      
                       {editModeIndex === index ? (
-                        <input
-                          type="text"
+                        <textarea
                           value={recipe.instructions}
                           onChange={(e) => handleInputChange(index, 'instructions', e.target.value)}
                           style={{ width: '100%', height: '100px' }} // Adjust the height as needed
@@ -173,7 +174,6 @@ const RetrieveRecipe = ({ userID }) => {
                       )}
                     </div>
                   )}
-                  
                 </TableCell>
                 <TableCell>
                   {expandedRecipeIndex === index && (
@@ -190,10 +190,7 @@ const RetrieveRecipe = ({ userID }) => {
                           <Button onClick={() => handleCancelEdit(index)}>Cancel</Button>
                         </div>
                       ) : (
-                        <Button
-                          onClick={() => handleEdit(index)}
-                          startIcon={<Edit />}
-                        >
+                        <Button onClick={() => handleEdit(index)} startIcon={<Edit />}>
                           Edit
                         </Button>
                       )}
@@ -210,6 +207,7 @@ const RetrieveRecipe = ({ userID }) => {
               </TableRow>
             ))}
           </TableBody>
+
         </Table>
       </TableContainer>
     </div>
