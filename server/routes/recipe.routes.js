@@ -97,43 +97,41 @@ router.route('/read').get(async (req, res) => {
 //amelio ends here  
 
 
-router.route('/edit/:id').get((req, res) => {
-    // recipe.findById(req.params.id, (error, data) => {
-    //     if (error) {
-    //         // eslint-disable-next-line no-undef
-    //         return next(error)
-    //     } else {
-    //         res.json(data)
-    //     }
-    // })
-    editRecipes(req.params.id).then((result) => {return res.json(result)}).catch((error) => { return error });
-})
+router.route('/edit/:id').get(async (req, res) => {
+    const recipeId = req.params.id;
+  
+    try {
+      const recipeToEdit = await recipe.findById(recipeId);
+      res.json(recipeToEdit);
+    } catch (error) {
+      console.log('Error fetching recipe for editing:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+  
 
-router.route('/update/:id').put((req, res) => {
-    // recipe.findByIdAndUpdate(req.params.id, {
-    //     $set: req.body
-    // }, (error, data) => {
-    //     if (error) {
-    //         console.log(error)
-    //         return next(error)
-    //     } else {
-    //         res.json(data)
-    //         console.log('User updated successfully !')
-    //     }
-    // })
-    updateRecipes(req.params.id, req.body).then((result) => {return res.json(result)}).catch((error) => { return error });
-})
-router.route('/delete/:id').delete((req, res) => {
-    // recipe.findByIdAndRemove(req.params.id, (error, data) => {
-    //     if (error) {
-    //         return next(error);
-    //     } else {
-    //         res.status(200).json({
-    //             msg: data
-    //         })
-    //     }
-    // })
-
-    deleteRecipes(req.params.id).then((result) => {return res.json(result)}).catch((error) => { return error });
-})
+router.route('/update/:id').put(async (req, res) => {
+    const recipeId = req.params.id;
+    const updatedData = req.body;
+  
+    try {
+      const updatedRecipe = await recipe.findByIdAndUpdate(recipeId, updatedData, { new: true });
+      res.json(updatedRecipe);
+    } catch (error) {
+      console.log('Error updating recipe:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+  
+  router.route('/delete/:id').delete(async (req, res) => {
+    const recipeId = req.params.id;
+    
+    try {
+      const deletedRecipe = await recipe.findByIdAndDelete(recipeId);
+      res.json(deletedRecipe);
+    } catch (error) {
+      console.log('Error deleting recipe:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
 module.exports = router;
