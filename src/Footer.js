@@ -14,37 +14,42 @@ import { Box, Container, TableRow, Grid, Link, ListItem, List, ListItemText, Typ
 const Footer = () => {
   return (
     <Box
-      sx={{  display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '20px', position: 'fixed', bottom:0}}
+      sx={{position: 'fixed', bottom:0}}
       backgroundColor="#1e507b"
+      width='100%'
+      marginLeft={'-0px'}
     >
-      <Typography color={"white"} fontSize="30px" >
-        SAVORY RECIPES: YOUR INGREDIENTS, OUR RECIPES
+      <Box sx={{  display: 'flex', alignContent: 'center', justifyContent: 'center'}} backgroundColor="#1e507b" >
+      <Typography color={"white"} fontSize="30px" fontFamily='Georgia' fontWeight='400' >
+        ChefBot - Your Ingredients, Our Recipes
       </Typography>
-      
-        <Grid container direction="row"  >
-          <List >
+      </Box>
+      <Typography fontFamily='Georgia'>
+      <Box  backgroundColor="#1e507b">
+        <Grid container direction="row" fontFamily={'Georgia'} fontWeight='400' sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}} >
+          <List sx={{padding:'5px'}}>
             <ListItemText>About Us</ListItemText>
-            <ListItem href="#">Aim</ListItem>
-            <ListItem href="#">Vision</ListItem>
-            <ListItem href="#">Testimonials</ListItem>
+            {/* <ListItem href="#">Aim</ListItem>
+            <ListItem href="#">Vision</ListItem> */}
+            
           </List>
-          <List >
+          <List sx={{padding:'5px'}}>
             <ListItemText>Services</ListItemText>
-            <ListItem href="#">Menus</ListItem>
+            {/* <ListItem href="#">Menus</ListItem>
             <ListItem href="#">Meals</ListItem>
-            <ListItem href="#">Prices</ListItem>
-            <ListItem href="#">Discounts</ListItem>
+            <ListItem href="#">Prices</ListItem> */}
+            
           </List>
-          <List >
+          <List sx={{padding:'5px'}}>
             <ListItemText>Contact Us</ListItemText>
-            <ListItem href="#">UNew York, NY 10012, US</ListItem>
+            {/* <ListItem href="#">New York, NY 10012, US</ListItem>
             <ListItem href="#">info@example.com</ListItem>
-            <ListItem href="#"> + 01 234 567 88</ListItem>
-            <ListItem href="#"> + 01 234 567 89</ListItem>
+            <ListItem href="#"> + 01 234 567 88</ListItem> */}
+            
           </List>
-          <List >
+          <List sx={{padding:'5px'}}>
             <ListItemText>Social Media</ListItemText>
-            <ListItem href="#">
+            {/* <ListItem href="#">
               <i className="fab fa-facebook-f">
                 <span style={{ marginLeft: "10px" }}>Facebook</span>
               </i>
@@ -58,19 +63,18 @@ const Footer = () => {
               <i className="fab fa-twitter">
                 <span style={{ marginLeft: "10px" }}>Twitter</span>
               </i>
-            </ListItem>
-            <ListItem href="#">
-              <i className="fab fa-youtube">
-                <span style={{ marginLeft: "10px" }}>Youtube</span>
-              </i>
-            </ListItem>
+            </ListItem> */}
+            
           </List>
         </Grid>
-      <div className="text-center p-4" style={{ backgroundColor: "#1e507b" }}>
-        © 2023 Copyright:
-      </div>
-      
       </Box>
+      <Box sx={{  display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+      <div className="text-center p-4" style={{ backgroundColor: "#1e507b" }}>
+        © 2023 Copyright
+      </div>
+      </Box>
+      </Typography>
+    </Box>
       
   );
 };

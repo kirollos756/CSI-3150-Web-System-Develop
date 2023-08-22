@@ -9,19 +9,19 @@ function Category() {
     <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
     <List>
       <IconButton href="/cusine/Italian" sx={iconButtonStyles}>
-        <FaPizzaSlice />
+        {/* <FaPizzaSlice /> */}
         <h4>Italian</h4>
       </IconButton>
       <IconButton href="/cusine/American" sx={iconButtonStyles}>
-        <FaHamburger />
+        {/* <FaHamburger /> */}
         <h4>American</h4>
       </IconButton>
       <IconButton href="/cusine/Thai" sx={iconButtonStyles}>
-        <GiNoodles />
+        {/* <GiNoodles /> */}
         <h4>Thai</h4>
       </IconButton>
       <IconButton href="/cusine/Japanese" sx={iconButtonStyles}>
-        <GiChopsticks />
+        {/* <GiChopsticks /> */}
         <h4>Japanese</h4>
       </IconButton>
     </List>

@@ -36,9 +36,20 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Paper
+  Paper,
+  CssBaseline,
+  ThemeProvider,
+  createTheme
 } from '@mui/material';
 // const mongoose = require("mongoose");
+
+const theme = createTheme({
+  palette: {
+    background: {
+      default: "#a6c1d9", // Set your desired background color
+    },
+  },
+});
 
 function App(userID) {
 
@@ -163,6 +174,8 @@ function App(userID) {
   // }
 
   return (
+    <ThemeProvider theme={theme}>
+     <CssBaseline /> {/* Apply a baseline of CSS resets */}
     <div className="App">
 
       {/* <Box sx={{ 
@@ -302,6 +315,7 @@ function App(userID) {
 
       </BrowserRouter>
     </div>
+    </ThemeProvider>
   );
 }
 console.log("started succesfully");

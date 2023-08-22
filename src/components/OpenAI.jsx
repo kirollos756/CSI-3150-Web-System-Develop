@@ -362,10 +362,10 @@ const OpenAIComponent = ({ userID }) => {
                             </div>
                         ))}
                         <ButtonGroup variant="contained" sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
-                            <Button type="submit" style={{ backgroundColor: '#f1b341', color: 'white' }}>
+                            <Button type="submit" style={{ backgroundColor: '#d63f2e', color: 'white'}}>
                                 <CloudUpload style={{ marginRight: '8px' }} /> Submit
                             </Button>
-                            <Button type="button" onClick={handleReset} style={{ backgroundColor: '#f1b341', color: 'white' }}>
+                            <Button type="button" onClick={handleReset} style={{ backgroundColor: '#d63f2e', color: 'white' }}>
                                 <Refresh style={{ marginRight: '8px' }} /> Reset
                             </Button>
                         </ButtonGroup>

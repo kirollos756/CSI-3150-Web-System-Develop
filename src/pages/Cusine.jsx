@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
 
-import { Grid , Card, Paper, Box } from "@mui/material";
+import { Grid , Card, Paper, Box, Container } from "@mui/material";
 
 function Cuisine() {
   const [cuisine, setCuisine] = useState([]);
@@ -22,24 +22,25 @@ function Cuisine() {
   }, [params.type]);
 
   return (
-    <Grid container sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
-      
+    <Container>
+      <Grid container spacing={2}>
       {cuisine.map((item) => {
         return (
           
-          <Paper>
-          <Card variant="outlined" key={item.id}>
+          <Grid item xs={4}>
+          <Paper variant="outlined" key={item.id} sx={{  display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
             <Link to={"/recipe/" + item.id}>
             <img src={item.image} alt="" />
             <h4>{item.title}</h4>
             </Link>
-          </Card>
           </Paper>
+          </Grid>
+         
           
         );
       })}
-      
-    </Grid>
+      </Grid>
+    </Container>
   );
 }
 // const Grid = styled(motion.div)`

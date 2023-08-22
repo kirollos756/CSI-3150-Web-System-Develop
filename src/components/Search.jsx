@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 import Category from "./Category";
 
+import { Paper } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -87,6 +89,9 @@ function Search() {
           value={transcript + input}
         />
       </div>
+      
+      <Category />
+      
     </FormStyle>
     
   );
