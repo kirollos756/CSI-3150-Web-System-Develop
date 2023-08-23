@@ -1,10 +1,8 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-// import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Grid, Card, Paper, Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; // Import the ExpandMoreIcon
 
-import { Grid , Card, Paper, Box } from "@mui/material";
 function Searched() {
   const [searchedRecipes, setSearchRecipes] = useState([]);
   let params = useParams();
@@ -23,38 +21,31 @@ function Searched() {
 
   return (
     <Grid container sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
-      {searchedRecipes.map((item) => {
-        return (
-          <Paper>
-          <Card variant='outlined' key={item.id}>
-            <Link to={"/recipe/" + item.id}>
-              <img src={item.image} alt="" />
-              <h4>{item.title}</h4>
-            </Link>
-          </Card>
-          </Paper>
-        );
-      })}
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />} // Use the ExpandMoreIcon as the expand icon
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography> Results</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container>
+            {searchedRecipes.map((item) => (
+              <Paper key={item.id}>
+                <Card variant='outlined'>
+                  <Link to={"/recipe/" + item.id}>
+                    <img src={item.image} alt="" />
+                    <h4>{item.title}</h4>
+                  </Link>
+                </Card>
+              </Paper>
+            ))}
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
     </Grid>
   );
 }
-// const Grid = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-//   grid-gap: 3rem;
-// `;
 
-// const Card = styled.div`
-//   img {
-//     width: 100%;
-//     border-radius: 2rem;
-//   }
-//   a {
-//     text-decoration: none;
-//   }
-//   h4 {
-//     text-align: center;
-//     padding: 1rem;
-//   }
-// `;
 export default Searched;

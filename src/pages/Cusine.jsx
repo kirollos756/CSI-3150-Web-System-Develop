@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-// import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
-
-import { Grid , Card, Paper, Box, Container } from "@mui/material";
+import { Grid, Paper, Container, Button } from "@mui/material";
 
 function Cuisine() {
   const [cuisine, setCuisine] = useState([]);
+  const [showGrid, setShowGrid] = useState(true); // State to toggle grid visibility
   let params = useParams();
 
   const getCuisine = async (name) => {
@@ -16,6 +15,7 @@ function Cuisine() {
     const recipes = await data.json();
     setCuisine(recipes.results);
   };
+
   useEffect(() => {
     getCuisine(params.type);
     console.log(params.type);
@@ -23,43 +23,38 @@ function Cuisine() {
 
   return (
     <Container>
-      <Grid container spacing={2}>
-      {cuisine.map((item) => {
-        return (
-          
-          <Grid item xs={4}>
-          <Paper variant="outlined" key={item.id} sx={{  display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-            <Link to={"/recipe/" + item.id}>
-            <img src={item.image} alt="" />
-            <h4>{item.title}</h4>
-            </Link>
-          </Paper>
-          </Grid>
-         
-          
-        );
-      })}
-      </Grid>
+      <Button
+        onClick={() => setShowGrid(!showGrid)} // Toggle grid visibility
+        variant="outlined"
+        sx={{ marginBottom: "20px" }}
+      >
+       Compact/expand View
+      </Button>
+      {showGrid && ( // Render grid only if showGrid is true
+        <Grid container spacing={2}>
+          {cuisine.map((item) => {
+            return (
+              <Grid item xs={4} key={item.id}>
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    alignContent: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Link to={"/recipe/" + item.id}>
+                    <img src={item.image} alt="" />
+                    <h4>{item.title}</h4>
+                  </Link>
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
     </Container>
   );
 }
-// const Grid = styled(motion.div)`
-//   display: grid;
-//   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-//   grid-gap: 3rem;
-// `;
 
-// const Card = styled.div`
-//   img {
-//     width: 100%;
-//     border-radius: 2rem;
-//   }
-//   a {
-//     text-decoration: none;
-//   }
-//   h4 {
-//     text-align: center;
-//     padding: 1rem;
-//   }
-// `;
 export default Cuisine;
